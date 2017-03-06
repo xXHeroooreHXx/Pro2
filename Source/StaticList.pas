@@ -75,13 +75,32 @@ unit StaticList;
 	end;
 	
 	function insertItem(i:tItem; p:tPosL; L:tList):boolean;
+	var
+		q:tPosL;	
 	begin
-	insertItem:=false;
+		if L.fin = MAX then
+			insertItem:=false;
+		else
+			begin
+				insertItem:=true;
+				L.endList:=L.endList+1;
+				if p = NULL then
+					L.data[L.endList+1]:=d;	
+				else
+				begin
+					for q:=L.endList downto p+1
+						L.data[q]:=L.data[q-1];
+					L.data[p]:=d;
+				end;
+			end;
 	end;
 	
 	procedure deleteAtPosition (p:tPosL; VAR L:tList);
 	begin
-		
+		for p to (L.endList -1) do
+			L.data[p]:=L.data[p+1];
+		end;
+		L.endList:=L.endList-1;
 	end;
 	
 	function getItem (p:tPosL; L:tList):tItem;
