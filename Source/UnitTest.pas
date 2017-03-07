@@ -1,7 +1,7 @@
 program TestUnit;
 
-uses list;
-//uses StaticList;
+//uses list;
+uses StaticList;
 //uses DynamicList;
 
 procedure print_list(L : tList);

@@ -35,7 +35,7 @@ unit DinamicList;
 	function next(p:tPosL; L:tList):tPosL;
 	function previous(p:tPosL; L:tList):tPosL;
 	procedure createNode(d:tData;VAR newPos:tPosL);
-	function insertItem(i:tItem; p:tPosL; L:tList):boolean;
+	function insertItem(i:tItem; p:tPosL; var L:tList):boolean;
 	procedure deleteAtPosition (p:tPosL; VAR L:tList);
 	function getItem (p:tPosL; L:tList):tItem;
 	procedure updateItem (VAR L:tList; p:tPosL; i:tItem);
@@ -100,7 +100,7 @@ unit DinamicList;
 		end;
 	end;
 
-	function insertItem(i:tItem; p:tPosL; L:tList):boolean;
+	function insertItem(i:tItem; p:tPosL; var L:tList):boolean;
 	var
 		newPos,q:tPosL;
 	

@@ -30,7 +30,7 @@ unit StaticList;
 	function last(L:tList):tPosL;
 	function next(p:tPosL; L:tList):tPosL;
 	function previous(p:tPosL; L:tList):tPosL;
-	function insertItem(i:tItem; p:tPosL; L:tList):boolean;
+	function insertItem(i:tItem; p:tPosL; var L:tList):boolean;
 	procedure deleteAtPosition (p:tPosL; VAR L:tList);
 	function getItem (p:tPosL; L:tList):tItem;
 	procedure updateItem (VAR L:tList; p:tPosL; i:tItem);
@@ -74,7 +74,7 @@ unit StaticList;
 			p:=p-1;
 	end;
 	
-	function insertItem(i:tItem; p:tPosL; L:tList):boolean;
+	function insertItem(i:tItem; p:tPosL; var L:tList):boolean;
 	var
 		q:tPosL;	
 	begin
