@@ -78,28 +78,30 @@ unit StaticList;
 	var
 		q:tPosL;	
 	begin
-		if L.fin = MAX then
-			insertItem:=false;
+		if L.endlist = MAX then
+			insertItem:=false
 		else
 			begin
 				insertItem:=true;
 				L.endList:=L.endList+1;
 				if p = NULL then
-					L.data[L.endList+1]:=d;	
+					L.data[L.endList+1]:=i
 				else
 				begin
-					for q:=L.endList downto p+1
+					for q:=L.endList downto p+1 do
 						L.data[q]:=L.data[q-1];
-					L.data[p]:=d;
+					L.data[p]:=i;
 				end;
 			end;
 	end;
 	
 	procedure deleteAtPosition (p:tPosL; VAR L:tList);
+	var
+	q:tPosL;
 	begin
-		for p to (L.endList -1) do
+		for q:=p to (L.endList -1) do
 			L.data[p]:=L.data[p+1];
-		end;
+		
 		L.endList:=L.endList-1;
 	end;
 	
