@@ -34,7 +34,6 @@ unit DinamicList;
 	function last(L:tList):tPosL;
 	function next(p:tPosL; L:tList):tPosL;
 	function previous(p:tPosL; L:tList):tPosL;
-	procedure createNode(d:tData;VAR newPos:tPosL);
 	function insertItem(i:tItem; p:tPosL; var L:tList):boolean;
 	procedure deleteAtPosition (p:tPosL; VAR L:tList);
 	function getItem (p:tPosL; L:tList):tItem;
@@ -89,14 +88,14 @@ unit DinamicList;
 		end;
 	end;
 
-	procedure createNode(d:tData;VAR newPos:tPosL);
+	procedure createNode(d:tItem;VAR newPos:tPosL);
 	begin
 		newPos:=NULL;
 		new(newPos);
 		if newPos <> NULL then
 		begin
-			newPos.data:=d;
-			newPos.next:=NULL;
+			newPos^.item:=d;
+			newPos^.next:=NULL;
 		end;
 	end;
 
@@ -105,14 +104,14 @@ unit DinamicList;
 		newPos,q:tPosL;
 	
 	begin
-		createNode(d,newNode);
-		if (newNode=NULL) then
-			insertItem:=false;
+		createNode(i,newPos);
+		if (newPos=NULL) then
+			insertItem:=false
 		else
 		begin
 			insertItem:=true;
 			if L=NULL then
-				L:=newPos;
+				L:=newPos
 			else if p = NULL then
 			begin
 				q:=L;
@@ -122,9 +121,9 @@ unit DinamicList;
 			end
 			else
 			begin
-				newPos^.item:p^.item;
-				p^.item:=d;
-				newPos^.next:p^.next;
+				newPos^.item:=p^.item;
+				p^.item:=i;
+				newPos^.next:=p^.next;
 				p^.next:=newPos;
 			end;
 		end;
@@ -136,14 +135,14 @@ unit DinamicList;
 
 	begin
 		if p=L then
-			L:=L^.next;
+			L:=L^.next
 		else if p^.next=NULL then
 		begin
 			q:=L;
-			while q^.next <> p
+			while q^.next <> p do
 				q:=q^.next;
 			q^.next:=NULL;
-		end;
+		end
 		else
 		begin
 			q:=p^.next;

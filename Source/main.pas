@@ -1,6 +1,6 @@
 program main;
 
-uses list,crt,sysutils;
+uses StaticList,crt,sysutils;
 
 function IntToStr(int:integer):string;
 begin
@@ -74,14 +74,14 @@ begin
 		then
 			imprimirLinea('No','stock','available',' ',' ')
 		else begin
-			q:=first(lista);
+			q:=last(lista);
 			if(filtro)
 			then begin
 				imprimirLinea('Stock(<',IntToStr(minQuantity),'):',' ',' ');
 				while(q<>NULL) do begin
 					item:=getItem(q,lista);
-					if(item.quantity<=minQuantity)
-					then 
+					if(item.quantity<minQuantity)
+					then begin
 						printed:=true;
 						imprimirItem(item);
 						total:=total+1;
@@ -89,8 +89,8 @@ begin
 						then gluten:=gluten+1;
 					if(item.allergens.milk)
 						then milk:=milk+1;
-					
-					q:=next(q,lista);
+					end;
+					q:=previous(q,lista);
 					end;
 			end			
 			else begin
@@ -103,19 +103,22 @@ begin
 						then gluten:=gluten+1;
 					if(item.allergens.milk)
 						then milk:=milk+1;
-					q:=next(q,lista);
+					q:=previous(q,lista);
 				end;
 			end;
 		
 		if(filtro)AND(NOT(printed))
 			then imprimirLinea('No','ingredients','below','the','threshold');
 		if(filtro)
-			then imprimirLinea('Number of ingredients','in stock (<',IntToStr(minQuantity),'):',IntToStr(total))
+			then begin
+				imprimirLinea('Number of ingredients','in stock (<',IntToStr(minQuantity),'):',IntToStr(total))
+				pgluten:=(gluten/total)*100;
+				pmilk:=(milk/total)*100;
+				writeln('      ',pgluten:0:1,'% contains gluten');
+				writeln('      ',pmilk:0:1,'% contains milk');
+			end;
 			else imprimirLinea('Number of ingredients','in','stock',':',IntToStr(total));
-		pgluten:=(gluten/total)*100;
-		pmilk:=(milk/total)*100;
-		writeln('      ',pgluten:0:1,'% contains gluten');
-		writeln('      ',pmilk:0:1,'% contains milk');
+		
 		
 		end;
 	end;

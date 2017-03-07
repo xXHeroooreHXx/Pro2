@@ -1,8 +1,8 @@
 program TestUnit;
 
 //uses list;
-uses StaticList;
-//uses DynamicList;
+//uses StaticList;
+uses DinamicList;
 
 procedure print_list(L : tList);
 {prints a list, iterative version}
@@ -15,11 +15,12 @@ begin
       p := first(L);
       while p <> NULL do
       begin
-	 write(' ',getItem(p, L).nIngredient,' ');
-	 p := next(p, L)
+		write(' ',getItem(p, L).nIngredient,' ');
+		p := next(p, L)
       end;
    end;
-   write(')');
+   writeln(')');
+
 end; { print_list_i }
 
 

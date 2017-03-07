@@ -60,10 +60,10 @@ unit StaticList;
 	
 	function next(p:tPosL; L:tList):tPosL;
 	begin
-		if p=last(L) then
+		if p=l.endlist then
 			next:=NULL
 		else 
-			p:=p+1;
+			next:=p+1;
 	end;
 	
 	function previous(p:tPosL; L:tList):tPosL;
@@ -71,7 +71,7 @@ unit StaticList;
 		if p=first(L) then
 			previous:=NULL
 		else 
-			p:=p-1;
+			previous:=p-1;
 	end;
 	
 	function insertItem(i:tItem; p:tPosL; var L:tList):boolean;
@@ -85,11 +85,11 @@ unit StaticList;
 				insertItem:=true;
 				L.endList:=L.endList+1;
 				if p = NULL then
-					L.data[L.endList+1]:=i
-				else
-				begin
+					L.data[L.endList]:=i
+				else begin
 					for q:=L.endList downto p+1 do
 						L.data[q]:=L.data[q-1];
+						
 					L.data[p]:=i;
 				end;
 			end;
@@ -100,8 +100,7 @@ unit StaticList;
 	q:tPosL;
 	begin
 		for q:=p to (L.endList -1) do
-			L.data[p]:=L.data[p+1];
-		
+			L.data[q]:=L.data[q+1];
 		L.endList:=L.endList-1;
 	end;
 	
