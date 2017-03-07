@@ -1,4 +1,4 @@
-unit DinamicList;
+unit DynamicList;
 	interface
 	const
 		NULL = NIL;
