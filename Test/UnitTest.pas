@@ -2,7 +2,7 @@ program TestUnit;
 
 //uses list;
 //uses StaticList;
-uses DinamicList;
+uses DynamicList;
 
 procedure print_list(L : tList);
 {prints a list, iterative version}
@@ -73,9 +73,12 @@ begin
 	insertItem(d1, last(l), l);
 	
 	print_list(l);
-
+	writeln('Hola :D');
+	
 	p := findItem('flour', l);
-
+	if(p=NULL)
+		then writeln('CUIDADO! NULL');
+	writeln('Encontrado');
 	d := getItem(p, l);
 	
 	writeln(d.nIngredient);

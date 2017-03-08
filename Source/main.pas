@@ -109,17 +109,17 @@ begin
 		
 		if(filtro)AND(NOT(printed))
 			then imprimirLinea('No','ingredients','below','the','threshold');
-		if(filtro)
+
+		if(printed)
 			then begin
-				imprimirLinea('Number of ingredients','in stock (<',IntToStr(minQuantity),'):',IntToStr(total))
+				if(filtro)
+					then imprimirLinea('Number of ingredients','in stock (<',IntToStr(minQuantity),'):',IntToStr(total))
+					else imprimirLinea('Number of ingredients','in','stock',':',IntToStr(total));
 				pgluten:=(gluten/total)*100;
 				pmilk:=(milk/total)*100;
 				writeln('      ',pgluten:0:1,'% contains gluten');
 				writeln('      ',pmilk:0:1,'% contains milk');
 			end;
-			else imprimirLinea('Number of ingredients','in','stock',':',IntToStr(total));
-		
-		
 		end;
 	end;
 end;

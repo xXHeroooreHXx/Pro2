@@ -1,4 +1,5 @@
-cd Source
-fpc main  -e<../Binarios/main>
-fpc DynamicList -e<../Binarios/DynamicList.ppu>
-fpc StaticList -e<../Binarios/StaticList.ppu>
+cd Binarios
+fpc ../Source/StaticList  
+fpc ../Source/DynamicList  
+fpc ../Source/main  
+
