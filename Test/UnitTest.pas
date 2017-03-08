@@ -73,16 +73,11 @@ begin
 	insertItem(d1, last(l), l);
 	
 	print_list(l);
-	writeln('Hola :D');
 	
 	p := findItem('flour', l);
-	writeln(getItem(p,L).nIngredient);
-	if(p=NULL)
-		then writeln('CUIDADO! NULL');
-	writeln('Encontrado');
+
 	d := getItem(p, l);
 	
-	writeln(d.nIngredient);
 	
 	d.quantity := 55;
 	
@@ -91,9 +86,7 @@ begin
 	d := getItem(p, l);
 	
 	writeln(d.nIngredient);
-	writeln;
-	writeln;
-	writeln;
+
 	print_list(l);
 
 	deleteAtPosition(next(first(l),l), l);
