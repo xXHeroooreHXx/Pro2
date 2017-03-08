@@ -76,6 +76,7 @@ begin
 	writeln('Hola :D');
 	
 	p := findItem('flour', l);
+	writeln(getItem(p,L).nIngredient);
 	if(p=NULL)
 		then writeln('CUIDADO! NULL');
 	writeln('Encontrado');
@@ -90,7 +91,9 @@ begin
 	d := getItem(p, l);
 	
 	writeln(d.nIngredient);
-	
+	writeln;
+	writeln;
+	writeln;
 	print_list(l);
 
 	deleteAtPosition(next(first(l),l), l);

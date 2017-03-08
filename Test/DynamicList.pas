@@ -37,7 +37,7 @@ unit DynamicList;
 	function insertItem(i:tItem; p:tPosL; var L:tList):boolean;
 	procedure deleteAtPosition (p:tPosL; VAR L:tList);
 	function getItem (p:tPosL; L:tList):tItem;
-	procedure updateItem (VAR L:tList; p:tPosL; i:tItem);
+	procedure updateItem (L:tList; p:tPosL; i:tItem);
 	function findItem (ing:tnIngredient; L:tList):tPosL;
 
 
@@ -148,18 +148,20 @@ unit DynamicList;
 		getItem:=p^.item;
 	end;
 
-	procedure updateItem(var L:tList;p:tPosL;i:tItem);
+	procedure updateItem(L:tList;p:tPosL;i:tItem);
 	begin
 		p^.item:=i;
 	end;
 
 	function findItem (ing:tnIngredient; L:tList):tPosL;
 	begin
+		writeln(L^.item.nIngredient);
 		if(L^.item.nIngredient = ing) then
 			findItem := l
 		else begin
 			if(L^.next <> NULL) then
 				findItem(ing,L^.next);
 		end;
+		writeln(findItem^.item.nIngredient);
 	end;
 end.
