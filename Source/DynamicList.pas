@@ -37,7 +37,7 @@ unit DynamicList;
 	function insertItem(i:tItem; p:tPosL; var L:tList):boolean;
 	procedure deleteAtPosition (p:tPosL; VAR L:tList);
 	function getItem (p:tPosL; L:tList):tItem;
-	procedure updateItem (VAR L:tList; p:tPosL; i:tItem);
+	procedure updateItem (L:tList; p:tPosL; i:tItem);
 	function findItem (ing:tnIngredient; L:tList):tPosL;
 
 
@@ -136,38 +136,31 @@ unit DynamicList;
 	begin
 		if p=L then
 			L:=L^.next
-		else if p^.next=NULL then
-		begin
-			q:=L;
-			while q^.next <> p do
-				q:=q^.next;
-			q^.next:=NULL;
-		end
-		else
-		begin
-			q:=p^.next;
-			p^.item:=q^.item;
-			p^.next:=q^.next;
-			p:=q;
+		else begin
+			q:=previous(p,L);
+			q^.next := p^.next;
 		end;
 		dispose(p);
 	end;
 
 	function getItem(p:tPosL; L:tList): tItem;
 	begin
-	getItem:=p^.item;
+		getItem:=p^.item;
 	end;
 
-	procedure updateItem(var L:tList;p:tPosL;i:tItem);
+	procedure updateItem(L:tList;p:tPosL;i:tItem);
 	begin
 		p^.item:=i;
 	end;
 
 	function findItem (ing:tnIngredient; L:tList):tPosL;
+	var
+		p:tPosL;
 	begin
-		if(L^.item.nIngredient = ing) then
-			findItem := l
-		else
-			findItem(ing,L^.next);
-	end;
+		p:=first(L);
+		findItem:=NULL;
+		while((p<>NULL)AND(findItem=NULL)AND(p^.item.nIngredient <> ing)) do
+			p:=p^.next;
+		findItem:=p;	
+	end;	
 end.

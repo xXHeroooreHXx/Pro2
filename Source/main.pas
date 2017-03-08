@@ -1,6 +1,6 @@
 program main;
 
-uses StaticList,crt,sysutils;
+uses DynamicList,crt,sysutils;
 
 function IntToStr(int:integer):string;
 begin
