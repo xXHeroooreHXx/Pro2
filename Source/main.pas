@@ -14,6 +14,7 @@ begin
 		else boolToString := 'false';
 		
 end;
+
 procedure imprimirItem(item:tItem);
 begin
 	writeln('* Ingredient ',item.nIngredient,': ',item.quantity);
@@ -158,7 +159,9 @@ begin
    begin
       readln(fileId, line);
       code:=trim(copy(line,1,2));
-      
+      writeln('*******************************************');
+      writeln('Task ',line);
+      writeln('*******************************************');
       //Select the proper arguments from each line of the file
       case code[1] of
 		'N', 'n': begin 
@@ -205,6 +208,7 @@ begin
 					Stock(withQuantity,quantity,lista);
 				  end;
 	end;
+	
 		   
 
 	//EXECUTE TASK 
