@@ -238,8 +238,12 @@ begin
 		'M', 'm': begin 
 					name:=trim(copy(line,3,12)); 
 					val(trim(copy(line,17,7)),quantity);
+					Modify(name,quantity,lista);
 				  end;
-		'R', 'r': val(trim(copy(line,3,7)),quantity);
+		'R', 'r': begin
+					val(trim(copy(line,3,7)),quantity);
+					Remove(quantity,lista);
+				  end;
 		'A', 'a': begin 
 					allergen1:=trim(copy(line,3,6));
 					allergen2:=trim(copy(line,9,6));
