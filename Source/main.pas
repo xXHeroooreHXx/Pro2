@@ -86,7 +86,32 @@ begin
 	end;
 end;
 
-procedure Allergens(gluten:tGluten,)
+procedure Remove(minquantity:tQuantity;var list:tList);
+var
+pos:tPosL;
+item:tItem;
+cont:integer=0;
+begin
+	imprimirLinea('Removing' ,'ingredients', 'with', 'quantity inferior to',IntToStr(minquantity));
+	if(isEmptyList(list)) then
+		imprimirLinea('No','ingredients','found' ,'in' ,'stock')
+	else begin
+		pos:=first(list);
+		while(pos<>NULL) do begin
+			item:=getItem(pos,list);
+			if(item.quantity<minquantity) then begin
+				writeln('* Ingredient ',item.nIngredient,': ',IntToStr(item.quantity));
+				deleteAtPosition(pos,list);
+				cont:=cont+1;
+			end;
+			pos:=next(pos,list);
+		end;
+		if(cont=0) then
+			imprimirLinea('No','ingredients','found' ,'in' ,'stock')
+		else
+			imprimirLinea('Number','of','ingredients','removed:',IntToStr(cont));
+	end;		
+end;
 
 procedure Stock(filtro:boolean;minQuantity:integer;lista:tList);
 var
