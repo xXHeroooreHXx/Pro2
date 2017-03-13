@@ -58,6 +58,36 @@ begin
 		end;	
 end;
 
+procedure Modify(nIngredient:tnIngredient;quantity:tQuantity;var list:tList);
+var
+	pos:tPosL;
+	item:tItem;
+begin
+	if(quantity=0) then
+		imprimirError('ERROR','Modifying:','invalid quantity')
+	else begin
+		pos:=findItem(nIngredient,list);
+		if(pos=NULL) then
+			imprimirError('ERROR Modifying: ingredient',nIngredient,'does not exist')
+		else begin
+			item := getItem(pos,list);
+			item.quantity:=item.quantity+quantity;
+			if(item.quantity=0) then begin
+				imprimirLinea('Ingredient',nIngredient,'run out','of','stock');
+				deleteAtPosition(pos,List);
+			end
+			else if(item.quantity>0) then begin	
+				updateItem(list,pos,item);
+				imprimirLinea('New','quantity for ingredient',nIngredient,':',IntToStr(quantity));
+			end
+			else
+				imprimirError('ERROR Modifying:','not enough','quantity');
+		end;
+	end;
+end;
+
+procedure Allergens(gluten:tGluten,)
+
 procedure Stock(filtro:boolean;minQuantity:integer;lista:tList);
 var
 	q:tPosL;
