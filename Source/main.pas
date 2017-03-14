@@ -88,9 +88,9 @@ end;
 
 procedure Remove(minquantity:tQuantity;var list:tList);
 var
-pos:tPosL;
-item:tItem;
-cont:integer=0;
+	pos:tPosL;
+	item:tItem;
+	cont:integer=0;
 begin
 	imprimirLinea('Removing' ,'ingredients', 'with', 'quantity inferior to',IntToStr(minquantity));
 	if(isEmptyList(list)) then
@@ -111,6 +111,79 @@ begin
 		else
 			imprimirLinea('Number','of','ingredients','removed:',IntToStr(cont));
 	end;		
+end;
+
+procedure Allergens(gluten:boolean;milk:boolean;Lista:tLista);
+var
+	p:tPosL;
+	i:tItem;
+	exist:boolean;
+begin
+	if isEmptyList(Lista)then
+		imprimirLinea('No','stock','available','','');
+	else
+		begin
+			p:=first(Lista);
+			exist:=false;
+			if gluten then  
+				if milk then
+					begin																		(*Gluten & Milk*)
+						while p <> NULL do
+							begin
+								i:=getItem(p,Lista)
+								if (i.allergens.gluten) OR (i.allergens.milk) then
+									begin
+										if NOT exist then
+											begin
+												imprimirLinea('Ingredients','with','allergens:','','');
+												exist:=true;
+											end;
+										imprimirItem(i);
+									end;	
+							end;
+						if NOT exist then
+							imprimirLinea('Current','stock','completely','allergen-free','');
+					end;
+				else									
+					begin																		(*Gluten & NOT Milk*)
+						while p <> NULL do
+							begin
+								i:=getItem(p,Lista)
+								if i.allergens.gluten then
+									begin
+										if NOT exist then
+											begin
+												imprimirLinea('Ingredients','with','gluten:','','');
+												exist:=true;
+											end;
+										wrileln('* Ingredient ',i.nIngredient,': ',i.quantity);
+									end;	
+							end;
+						if NOT exist then
+							imprimirLinea('Current','stock','completely','allergen-free','');
+					end;
+			else									
+				if milk then
+					begin																		(*NOT Gluten & Milk*)
+						while p <> NULL do
+							begin
+								i:=getItem(p,Lista)
+								if i.allergens.milk then
+									begin
+										if NOT exist then
+											begin
+												imprimirLinea('Ingredients','with','milk:','','');
+												exist:=true;
+											end;
+										wrileln('* Ingredient ',i.nIngredient,': ',i.quantity);
+									end;	
+							end;
+						if NOT exist then
+							imprimirLinea('Current','stock','completely','allergen-free','');
+					end;
+				else
+					imprimirError('ERROR','Showing allergens:','allergen not determined');		(*NOT Gluten & NOT Milk*)
+		end;
 end;
 
 procedure Stock(filtro:boolean;minQuantity:integer;lista:tList);
