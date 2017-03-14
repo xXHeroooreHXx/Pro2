@@ -27,7 +27,7 @@ end; { print_list_i }
 var l:tList;
     p:tPosL;
     d,d1: tItem;
-
+	q:tPosL;
 begin
 	
 	createEmptyList(l);
@@ -75,7 +75,7 @@ begin
 	print_list(l);
 	
 	p := findItem('flour', l);
-
+	q:=NULL;
 	d := getItem(p, l);
 	
 	

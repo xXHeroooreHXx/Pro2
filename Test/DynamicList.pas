@@ -157,10 +157,22 @@ unit DynamicList;
 	var
 		p:tPosL;
 	begin
-		p:=first(L);
+		p:=L;
 		findItem:=NULL;
-		while((p<>NULL)AND(findItem=NULL)AND(p^.item.nIngredient <> ing)) do
-			p:=p^.next;
-		findItem:=p;	
-	end;	
+		if(p = NULL) then begin
+			findItem := p;
+			writeln('NULL');
+			end
+		else begin
+			if(l^.item.nIngredient = ing) then begin
+				findItem := p;
+				writeln('Encontrado');
+				end
+			else begin
+				writeln('Siguiente');
+				findItem:=NULL;
+				findItem(ing,next(p,l));
+			end;
+		end;
+	end;
 end.
