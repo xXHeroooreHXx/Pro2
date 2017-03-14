@@ -1,0 +1,230 @@
+---------------- DYNAMIC LIST ----------------
+#####
+NEW
+#####
+#####
+MODIFY
+#####
+#####
+REMOVE
+#####
+#####
+ALLERGENS
+#####
+---------------- DYNAMIC LIST ----------------
+#####
+NEW
+#####
+*******************************************
+Task N flour         20000  true  false                     #adding ingredient
+*******************************************
+**** Adding new ingredient: flour 20000 true false
+*******************************************
+Task S
+*******************************************
+**** Stock :      
+* Ingredient flour: 20000
+      Contains gluten
+**** Number of ingredients in stock : 1
+      100.0% contains gluten
+      0.0% contains milk
+*******************************************
+Task N sugar         30000  false false                     #adding ingredient
+*******************************************
+**** Adding new ingredient: sugar 30000 false false
+*******************************************
+Task S
+*******************************************
+**** Stock :      
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+**** Number of ingredients in stock : 2
+      50.0% contains gluten
+      0.0% contains milk
+*******************************************
+Task N marmelade     20000  true  false                     #adding ingredient
+*******************************************
+**** Adding new ingredient: marmelade 20000 true false
+*******************************************
+Task S
+*******************************************
+**** Stock :      
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+**** Number of ingredients in stock : 3
+      66.7% contains gluten
+      0.0% contains milk
+*******************************************
+Task N sugar         10000  false false                              #error: ing
+redient already exists
+*******************************************
+**** Adding new ingredient: sugar 10000 false false
+++++ ERROR Adding New: Ingredient sugar already exists
+*******************************************
+Task S
+*******************************************
+**** Stock :      
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+**** Number of ingredients in stock : 3
+      66.7% contains gluten
+      0.0% contains milk
+*******************************************
+Task S 30000                                         #shows flour marmelade
+*******************************************
+**** Stock(< 30000 ):    
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient flour: 20000
+      Contains gluten
+**** Number of ingredients in stock (< 30000 ): 2
+      100.0% contains gluten
+      0.0% contains milk
+#####
+MODIFY
+#####
+*******************************************
+Task N flour         200    true  false
+*******************************************
+**** Adding new ingredient: flour 200 true false
+*******************************************
+Task N sugar         300    false false
+*******************************************
+**** Adding new ingredient: sugar 300 false false
+*******************************************
+Task S
+*******************************************
+**** Stock :      
+* Ingredient sugar: 300
+* Ingredient flour: 200
+      Contains gluten
+**** Number of ingredients in stock : 2
+      50.0% contains gluten
+      0.0% contains milk
+*******************************************
+Task M flour         200                                     #New quantity for i
+ngredient flour (400)
+*******************************************
+**** New quantity for ingredient flour : 200
+*******************************************
+Task S
+*******************************************
+**** Stock :      
+* Ingredient sugar: 300
+* Ingredient flour: 400
+      Contains gluten
+**** Number of ingredients in stock : 2
+      50.0% contains gluten
+      0.0% contains milk
+*******************************************
+Task M flour         0                                       #error: invalid qua
+ntity             
+*******************************************
+++++ ERROR Modifying: invalid quantity
+#####
+REMOVE
+#####
+*******************************************
+Task N flour         20000  true  false
+*******************************************
+**** Adding new ingredient: flour 20000 true false
+*******************************************
+Task N sugar         30000  false false
+*******************************************
+**** Adding new ingredient: sugar 30000 false false
+*******************************************
+Task N marmelade     20000  true  false
+*******************************************
+**** Adding new ingredient: marmelade 20000 true false
+*******************************************
+Task N creme         100    false true
+*******************************************
+**** Adding new ingredient: creme 100 false true
+*******************************************
+Task S
+*******************************************
+**** Stock :      
+* Ingredient creme: 100
+      Contains milk
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+**** Number of ingredients in stock : 4
+      50.0% contains gluten
+      25.0% contains milk
+*******************************************
+Task R 20001                                                 #remove flour, marm
+elade and creme
+*******************************************
+**** Removing ingredients with quantity inferior to 20001
+* Ingredient flour: 20000
+* Ingredient marmelade: 20000
+* Ingredient creme: 100
+**** Number of ingredients removed: 3
+*******************************************
+Task S
+*******************************************
+**** Stock :      
+* Ingredient sugar: 30000
+**** Number of ingredients in stock : 1
+      0.0% contains gluten
+      0.0% contains milk
+#####
+ALLERGENS
+#####
+*******************************************
+Task N flour         20000  true  false
+*******************************************
+**** Adding new ingredient: flour 20000 true false
+*******************************************
+Task N sugar         30000  false false
+*******************************************
+**** Adding new ingredient: sugar 30000 false false
+*******************************************
+Task N marmelade     20000  true  false
+*******************************************
+**** Adding new ingredient: marmelade 20000 true false
+*******************************************
+Task N creme         100    false true
+*******************************************
+**** Adding new ingredient: creme 100 false true
+*******************************************
+Task S 
+*******************************************
+**** Stock :      
+* Ingredient creme: 100
+      Contains milk
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+**** Number of ingredients in stock : 4
+      50.0% contains gluten
+      25.0% contains milk
+*******************************************
+Task A true  false                            #shows two ingredients (flour,marm
+elade)
+*******************************************
+**** Ingredients with gluten:  
+* Ingredient flour: 20000
+* Ingredient marmelade: 20000
+*******************************************
+Task A false true                             #show 1 ingredient (cream)
+*******************************************
+**** Ingredients with milk:  
+* Ingredient creme: 100
+*******************************************
+Task A false false              #error: no allergen determined
+*******************************************
+++++ ERROR Showing allergens: allergen not determined
+
