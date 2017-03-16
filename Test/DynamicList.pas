@@ -1,5 +1,7 @@
 unit DynamicList;
-	interface
+////////////////////////////////////////////////////////////////////////
+							interface
+////////////////////////////////////////////////////////////////////////							
 	const
 		NULL = NIL;
 
@@ -41,9 +43,9 @@ unit DynamicList;
 	function findItem (ing:tnIngredient; L:tList):tPosL;
 
 
-
-	implementation	
-
+////////////////////////////////////////////////////////////////////////
+							implementation	
+////////////////////////////////////////////////////////////////////////
 	procedure createEmptyList(var L:tList);
 	begin
 		L:=NULL;
@@ -170,8 +172,7 @@ unit DynamicList;
 				end
 			else begin
 				writeln('Siguiente');
-				findItem:=NULL;
-				findItem(ing,next(p,l));
+				findItem:=findItem(ing,next(p,l));
 			end;
 		end;
 	end;

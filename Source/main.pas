@@ -1,23 +1,32 @@
+{
+TITLE: PROGRAMMING II LABS  
+SUBTITLE: Practical 1
+AUTHOR 1: Julián Penedo Carrodeguas LOGIN 1: j.pcarrodeguas
+AUTHOR 2: Pablo Ramos Muras LOGIN 2: pablo.muras 
+GROUP: 4.2  
+DATE: 14/03/2017
+}
+
 program main;
 	
-	uses DynamicList,crt,sysutils;
+	uses StaticList,crt,sysutils;
 	
 	function IntToStr(int:integer):string;
 	begin
-		Str(int,IntToStr);
+		Str(int,IntToStr);  (*Transforma un integer directamente a String.*)
 	end;
 	
 	function boolToString(bool:boolean):string;
 	begin
 		if(bool)
 			then boolToString := 'true'
-			else boolToString := 'false';
+			else boolToString := 'false'; (*Transforma un boolean en un string*)
 			
 	end;
 	
 	procedure imprimirItem(item:tItem);
 	begin
-		writeln('* Ingredient ',item.nIngredient,': ',item.quantity);
+		writeln('* Ingredient ',item.nIngredient,': ',item.quantity); (*Procedimiento que imprime un item determinado, usado en allergens y en stock*)
 		if(item.allergens.gluten)
 		then writeln('      Contains gluten');
 		
@@ -30,12 +39,24 @@ program main;
 		writeln('**** ',linea1,' ',linea2,' ',linea3,' ',linea4,' ',linea5);
 	end;
 	
-	procedure imprimirError(error1:string;error2:string;error3:string);
+	procedure imprimirError(error1:string;error2:string;error3:string); (*Dos funciones encargadas de imprimir lineas con el formato correcto*)
 	begin
 		writeln('++++ ',error1,' ',error2,' ',error3);
 	end;
 	
-	procedure newIngredient(nIngrediente:string;cant:integer;gluten:boolean;milk:boolean;var lista:tList);
+	procedure DeleteList(L:tList);
+	begin
+		while NOT isEmptyList(L) do
+			deleteAtPosition(last(L),L);
+	end;
+		
+	
+	procedure newIngredient(nIngrediente:tnIngredient;cant:tQuantity;gluten:tGluten;milk:tMilk;var lista:tList);
+	(*Entradas: nIngrediente, cant, gluten, milk, lista.
+	Salida: La lista modificada con el nuevo ingrediente añadido.
+	Objetivo: Añadir un nuevo ingrediente a la lista
+	PostCD: Que la lista este inicializada
+	*)
 	var
 		item:tItem;
 		sCant:string;
@@ -59,47 +80,57 @@ program main;
 	end;
 	
 	procedure Modify(nIngredient:tnIngredient;quantity:tQuantity;var list:tList);
+	(*Entradas: nIngredient, quantity, lista.
+	Salida: La lista modificada con la cantidad del ingrediente modificada.
+	Objetivo: Modificar la cantidad de un ingrediente ya incluido en la lista 
+	PostCD: Que la lista este inicializada
+	*)
 	var
 		pos:tPosL;
 		item:tItem;
 	begin
 		if(quantity=0) then
-			imprimirError('ERROR','Modifying:','invalid quantity')
+			imprimirError('ERROR','Modifying:','invalid quantity') (*Caso cantidad = 0*)
 		else begin
 			pos:=findItem(nIngredient,list);
 			if(pos=NULL) then
-				imprimirError('ERROR Modifying: ingredient',nIngredient,'does not exist')
+				imprimirError('ERROR Modifying: ingredient',nIngredient,'does not exist') (*Caso en el que no existe el ingrediente a modificar*)
 			else begin
 				item := getItem(pos,list);
 				item.quantity:=item.quantity+quantity;
 				if(item.quantity=0) then begin
-					imprimirLinea('Ingredient',nIngredient,'run out','of','stock');
+					imprimirLinea('Ingredient',nIngredient,'run out','of','stock'); (*El ingrediente se queda a 0, es eliminado.*)
 					deleteAtPosition(pos,List);
 				end
 				else if(item.quantity>0) then begin	
 					updateItem(list,pos,item);
-					imprimirLinea('New','quantity for ingredient',nIngredient,':',IntToStr(quantity));
+					imprimirLinea('New','quantity for ingredient',nIngredient,':',IntToStr(quantity)); (*El ingrediente es modificado normal*)
 				end
 				else
-					imprimirError('ERROR Modifying:','not enough','quantity');
+					imprimirError('ERROR Modifying:','not enough','quantity');(*El ingrediente no tiene suficiente cantidad para ser modificado*)
 			end;
 		end;
 	end;
 	
-	procedure Remove(minquantity:tQuantity;var list:tList);
+	procedure Remove(Quantity:tQuantity;var list:tList);
+	(*Entradas: Quantity, lista.
+	Salida: La lista modificada con los ingredientes afectados eliminados.
+	Objetivo: Eliminar todo ingrediente de la lista con una cantidad menor a la especificada
+	PostCD: Que la lista este inicializada
+	*)
 	var
 		pos:tPosL;
 		item:tItem;
 		cont:integer=0;
 	begin
-		imprimirLinea('Removing' ,'ingredients', 'with', 'quantity inferior to',IntToStr(minquantity));
+		imprimirLinea('Removing' ,'ingredients', 'with', 'quantity inferior to',IntToStr(Quantity));
 		if(isEmptyList(list)) then
 			imprimirLinea('No','ingredients','found' ,'in' ,'stock')
 		else begin
 			pos:=first(list);
 			while(pos<>NULL) do begin
 				item:=getItem(pos,list);
-				if(item.quantity<minquantity) then begin
+				if(item.quantity<Quantity) then begin
 					writeln('* Ingredient ',item.nIngredient,': ',IntToStr(item.quantity));
 					deleteAtPosition(pos,list);
 					cont:=cont+1;
@@ -114,6 +145,10 @@ program main;
 	end;
 	
 	procedure Allergens(gluten:boolean;milk:boolean;Lista:tList);
+	(*Entradas: gluten, milk, lista.
+	Objetivo: Imprimir por pantalla el los ingredientes que contengan los alergenos especificados
+	PostCD: Que la lista este inicializada
+	*)
 	var
 		p:tPosL;
 		i:tItem;
@@ -178,7 +213,10 @@ program main;
 		end;
 	end;
 	
-	procedure Stock(filtro:boolean;minQuantity:integer;lista:tList);
+	procedure Stock(withQuantity:boolean;Quantity:integer;lista:tList);
+	(*Entradas: withQuantity, Quantity, lista.
+	Objetivo: Mostrar todos los ingredientes que estan actualmente en la lista, si se especifica una cantidad, muestra solo aquellos por debajo de esta cantidad.
+	PostCD: Que la lista este inicializada*)
 	var
 		q:tPosL;
 		item:tItem;
@@ -187,7 +225,7 @@ program main;
 		pgluten,pmilk:real;
 	begin
 		gluten :=0; milk:=0; total:=0; pgluten := 0; pmilk := 0;
-		if(minQuantity<=0)
+		if(Quantity<=0)
 		then imprimirError('ERROR in Stock:','invalid','quantity')
 		else begin
 		
@@ -196,14 +234,14 @@ program main;
 				imprimirLinea('No','stock','available',' ',' ')
 			else begin
 				q:=last(lista);
-				if(filtro)
+				if(withQuantity)
 				then begin
-					imprimirLinea('Stock(<',IntToStr(minQuantity),'):',' ',' ');
+					imprimirLinea('Stock(<',IntToStr(Quantity),'):',' ',' ');
 					while(q<>NULL) do begin
 						item:=getItem(q,lista);
-						if(item.quantity<minQuantity)
+						if(item.quantity<Quantity)
 						then begin
-							printed:=true;
+							printed:=true;                      (*Caso con cantidad mínima.*)
 							imprimirItem(item);
 							total:=total+1;
 						if(item.allergens.gluten)
@@ -221,20 +259,20 @@ program main;
 						imprimirItem(item);
 						total:=total+1;
 						if(item.allergens.gluten)
-							then gluten:=gluten+1;
+							then gluten:=gluten+1;               (*Caso sin cantidad minima*)
 						if(item.allergens.milk)
 							then milk:=milk+1;
 						q:=previous(q,lista);
 					end;
 				end;
 			
-			if(filtro)AND(NOT(printed))
+			if(withQuantity)AND(NOT(printed))
 				then imprimirLinea('No','ingredients','below','the','threshold');
 	
 			if(printed)
 				then begin
-					if(filtro)
-						then imprimirLinea('Number of ingredients','in stock (<',IntToStr(minQuantity),'):',IntToStr(total))
+					if(withQuantity)
+						then imprimirLinea('Number of ingredients','in stock (<',IntToStr(Quantity),'):',IntToStr(total))
 						else imprimirLinea('Number of ingredients','in','stock',':',IntToStr(total));
 					pgluten:=(gluten/total)*100;
 					pmilk:=(milk/total)*100;
@@ -280,8 +318,7 @@ program main;
 	      readln(fileId, line);
 	      code:=trim(copy(line,1,2));
 	      writeln('*******************************************');
-	      writeln('Task ',line);
-	      writeln('*******************************************');
+	     
 	      //Select the proper arguments from each line of the file
 	      case code[1] of
 			'N', 'n': begin 
@@ -289,6 +326,8 @@ program main;
 						val(trim(copy(line,17,7)),quantity);				
 						allergen1:=trim(copy(line,23,6));
 						allergen2:=trim(copy(line,29,6));
+						writeln('Task ',code,': ',name,' ',quantity,' ',allergen1,' ',allergen2);
+						writeln('*******************************************');
 						//converts a string (true/false) to boolean
 						if not TryStrToBool(allergen1, gluten) then begin
 							writeln('**** Reading. Error reading data from ', taskFile);
@@ -303,15 +342,21 @@ program main;
 			'M', 'm': begin 
 						name:=trim(copy(line,3,12)); 
 						val(trim(copy(line,17,7)),quantity);
+						writeln('Task ',code,': ',name,' ',quantity);
+						writeln('*******************************************');
 						Modify(name,quantity,lista);
 					  end;
 			'R', 'r': begin
 						val(trim(copy(line,3,7)),quantity);
+						writeln('Task ',code,': ',quantity);
+						writeln('*******************************************');
 						Remove(quantity,lista);
 					  end;
 			'A', 'a': begin 
 						allergen1:=trim(copy(line,3,6));
 						allergen2:=trim(copy(line,9,6));
+						writeln('Task ',code,': ',allergen1,' ',allergen2);
+						writeln('*******************************************');
 											//converts a string (true/false) to boolean
 						if not TryStrToBool(allergen1, gluten) then begin
 							writeln('**** Reading. Error reading data from ', taskFile);
@@ -325,6 +370,8 @@ program main;
 					  end;
 			'S', 's': begin 
 						strquantity:=trim(copy(line,3,7));
+						writeln('Task ',code,': ',strquantity);
+						writeln('*******************************************');
 						if (strquantity <>'') then begin
 							val(strquantity,quantity);
 							withQuantity:=true;
@@ -334,10 +381,7 @@ program main;
 					  end;
 		end;
 		
-			   
-	
-		//EXECUTE TASK 
-	    //...
+		DeleteList(lista);
 		
 		end; (*while*)
 	
@@ -351,7 +395,7 @@ program main;
 		if (paramCount>0) then
 			readTasks(ParamStr(1))
 		else
-			readTasks('new.txt');
+			readTasks('Allergens.txt');
 	
 
 END.

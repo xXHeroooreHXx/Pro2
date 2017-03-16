@@ -1,3 +1,12 @@
+{
+TITLE: PROGRAMMING II LABS  
+SUBTITLE: Practical 1
+AUTHOR 1: Julián Penedo Carrodeguas LOGIN 1: j.pcarrodeguas
+AUTHOR 2: Pablo Ramos Muras LOGIN 2: pablo.muras 
+GROUP: 4.2  
+DATE: 14/03/2017
+}
+
 unit DynamicList;
 	interface
 	const
@@ -45,21 +54,28 @@ unit DynamicList;
 	implementation	
 
 	procedure createEmptyList(var L:tList);
+	(*Crea una lista vacía.
+	PostCD: La lista queda inicializada y no contiene elementos.*)
 	begin
 		L:=NULL;
 	end;
 
 	function isEmptyList(L:tList):boolean;
+	(*Determina si la lista está vacía.*)
 	begin
 		isEmptyList:=(L=NULL)
 	end;
 
 	function first(L:tList):tPosL;
+	(*Devuelve la posición del primer elemento de la lista.
+	PreCD: La lista no está vacía.*)
 	begin
 		first:=L;
 	end;
 
 	function last(L:tList):tPosL;
+	(*Devuelve la posición del último elemento de la lista.
+	PreCD: La lista no está vacía.*)
 	var
 		p:tPosL;
 	begin
@@ -70,11 +86,15 @@ unit DynamicList;
 	end;
 
 	function next(p:tPosL; L:tList):tPosL;
+	(*Devuelve la posición en la lista del elemento siguiente al de la posición indicada (o NULL si la posición no tiene siguiente).
+	PreCD: La posición indicada es una posición válida en la lista.*)	
 	begin
 		next:=p^.next;
 	end;
 
 	function previous(p:tPosL; L:tList):tPosL;
+	(*Devuelve la posición en la lista del elemento anterior al de la posición indicada (o NULL si la posición no tiene anterior).
+	PreCD: La posición indicada es una posición válida en la lista.*)
 	var
 		q:tPosL;
 	begin
@@ -100,6 +120,11 @@ unit DynamicList;
 	end;
 
 	function insertItem(i:tItem; p:tPosL; var L:tList):boolean;
+	(*Inserta un elemento con los datos indicados en la lista, inmediatamente antes de la posición indicada. 
+	Si dicha posición indicada es NULL, entonces el elemento se añade al final.
+	Si el elemento en cuestión pudo ser insertado, se devuelve un valor true; sino se devuelve false.
+	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULL).
+	PostCD: Las posiciones de los elementos de la lista a continuación del insertado dejan de ser válidas.*)
 	var
 		newPos,q:tPosL;
 	
@@ -130,6 +155,11 @@ unit DynamicList;
 	end;
 
 	procedure deleteAtPosition (p:tPosL; VAR L:tList);
+	(*Inserta un elemento con los datos indicados en la lista, inmediatamente antes de la posición indicada. 
+	Si dicha posición indicada es NULL, entonces el elemento se añade al final.
+	Si el elemento en cuestión pudo ser insertado, se devuelve un valor true; sino se devuelve false.
+	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULL).
+	PostCD: Las posiciones de los elementos de la lista a continuación del insertado dejan de ser válidas.*)
 	var
 		q:tPosL;
 
@@ -144,16 +174,21 @@ unit DynamicList;
 	end;
 
 	function getItem(p:tPosL; L:tList): tItem;
+	(*Devuelve el contenido del elemento de la lista que ocupa la posición indicada.
+	PreCD: La posición indicada es una posición válida en la lista.*)
 	begin
 		getItem:=p^.item;
 	end;
 
 	procedure updateItem(L:tList;p:tPosL;i:tItem);
-	begin
+	(*Modifica el contenido del elemento situado en la posición indicada.
+	PreCD: La posición indicada es una posición válida en la lista.
+	PostCD: El orden de los elementos de la lista no se ve modificado.*)begin
 		p^.item:=i;
 	end;
 
 	function findItem (ing:tnIngredient; L:tList):tPosL;
+	(*Devuelve la posición del primer elemento de la lista cuyo nombre de ingrediente se corresponda con el indicado (o NULL si no existe tal elemento).*)
 	var
 		p:tPosL;
 	begin
