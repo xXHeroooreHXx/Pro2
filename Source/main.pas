@@ -8,8 +8,11 @@ DATE: 14/03/2017
 }
 
 program main;
+
 	
 	uses StaticList,crt,sysutils;
+
+////////////////////////////////Funciones Internas//////////////////////	
 	
 	function IntToStr(int:integer):string;
 	begin
@@ -49,8 +52,8 @@ program main;
 		while NOT isEmptyList(L) do
 			deleteAtPosition(last(L),L);
 	end;
+////////////////////////////////////////////////////////////////////////
 		
-	
 	procedure newIngredient(nIngrediente:tnIngredient;cant:tQuantity;gluten:tGluten;milk:tMilk;var lista:tList);
 	(*Entradas: nIngrediente, cant, gluten, milk, lista.
 	Salida: La lista modificada con el nuevo ingrediente añadido.
@@ -58,8 +61,8 @@ program main;
 	PostCD: Que la lista este inicializada
 	*)
 	var
-		item:tItem;
-		sCant:string;
+		item:tItem; //Item a insertar
+		sCant:string; //Cantidad en string para imprimir más comodo
 	begin
 		Str(cant,sCant);
 		imprimirLinea('Adding new ingredient:',nIngrediente,sCant,boolToString(gluten),boolToString(milk));
@@ -86,8 +89,8 @@ program main;
 	PostCD: Que la lista este inicializada
 	*)
 	var
-		pos:tPosL;
-		item:tItem;
+		pos:tPosL; //posición del elemento
+		item:tItem;//item donde volcar los datos.
 	begin
 		if(quantity=0) then
 			imprimirError('ERROR','Modifying:','invalid quantity') (*Caso cantidad = 0*)
@@ -119,9 +122,9 @@ program main;
 	PostCD: Que la lista este inicializada
 	*)
 	var
-		pos:tPosL;
-		item:tItem;
-		cont:integer=0;
+		pos:tPosL; //posición que recorre la lista
+		item:tItem;//item donde se vuelcan los datos
+		cont:integer=0;//contador de eliminados
 	begin
 		imprimirLinea('Removing' ,'ingredients', 'with', 'quantity inferior to',IntToStr(Quantity));
 		if(isEmptyList(list)) then
@@ -150,9 +153,9 @@ program main;
 	PostCD: Que la lista este inicializada
 	*)
 	var
-		p:tPosL;
-		i:tItem;
-		exist:boolean;
+		p:tPosL; //posicion que recorre la lista
+		i:tItem; //item donde se vuelcan los atos
+		exist:boolean; //Existen ingredientes con allergens
 	begin
 	if isEmptyList(Lista)then
 			imprimirLinea('No','stock','available','','')

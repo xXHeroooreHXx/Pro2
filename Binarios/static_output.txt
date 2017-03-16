@@ -1,0 +1,186 @@
+---------------- STATIC LIST ----------------
+#####
+NEW
+#####
+*******************************************
+Task N: flour 20000 true false
+*******************************************
+**** Adding new ingredient: flour 20000 true false
+*******************************************
+Task S: 
+*******************************************
+**** Stock :      
+* Ingredient flour: 20000
+      Contains gluten
+*******************************************
+Task N: sugar 30000 false false
+*******************************************
+**** Adding new ingredient: sugar 30000 false false
+*******************************************
+Task S: 
+*******************************************
+**** Stock :      
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+*******************************************
+Task N: marmelade 20000 true false
+*******************************************
+**** Adding new ingredient: marmelade 20000 true false
+*******************************************
+Task S: 
+*******************************************
+**** Stock :      
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+*******************************************
+Task N: sugar 10000 false false
+*******************************************
+**** Adding new ingredient: sugar 10000 false false
+++++ ERROR Adding New: Ingredient sugar already exists
+*******************************************
+Task S: 
+*******************************************
+**** Stock :      
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+*******************************************
+Task S: 30000
+*******************************************
+**** Stock(< 30000 ):    
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient flour: 20000
+      Contains gluten
+**** Number of ingredients in stock (< 30000 ): 2
+      100.0% contains gluten
+      0.0% contains milk
+#####
+MODIFY
+#####
+*******************************************
+Task N: flour 200 true false
+*******************************************
+**** Adding new ingredient: flour 200 true false
+*******************************************
+Task N: sugar 300 false false
+*******************************************
+**** Adding new ingredient: sugar 300 false false
+*******************************************
+Task S: 
+*******************************************
+**** Stock :      
+* Ingredient sugar: 300
+* Ingredient flour: 200
+      Contains gluten
+*******************************************
+Task M: flour 200
+*******************************************
+**** New quantity for ingredient flour : 200
+*******************************************
+Task S: 
+*******************************************
+**** Stock :      
+* Ingredient sugar: 300
+* Ingredient flour: 400
+      Contains gluten
+*******************************************
+Task M: flour 0
+*******************************************
+++++ ERROR Modifying: invalid quantity
+#####
+REMOVE
+#####
+*******************************************
+Task N: flour 20000 true false
+*******************************************
+**** Adding new ingredient: flour 20000 true false
+*******************************************
+Task N: sugar 30000 false false
+*******************************************
+**** Adding new ingredient: sugar 30000 false false
+*******************************************
+Task N: marmelade 20000 true false
+*******************************************
+**** Adding new ingredient: marmelade 20000 true false
+*******************************************
+Task N: creme 100 false true
+*******************************************
+**** Adding new ingredient: creme 100 false true
+*******************************************
+Task S: 
+*******************************************
+**** Stock :      
+* Ingredient creme: 100
+      Contains milk
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+*******************************************
+Task R: 20001
+*******************************************
+**** Removing ingredients with quantity inferior to 20001
+* Ingredient flour: 20000
+* Ingredient marmelade: 20000
+**** Number of ingredients removed: 2
+*******************************************
+Task S: 
+*******************************************
+**** Stock :      
+* Ingredient creme: 100
+      Contains milk
+* Ingredient sugar: 30000
+#####
+ALLERGENS
+#####
+*******************************************
+Task N: flour 20000 true false
+*******************************************
+**** Adding new ingredient: flour 20000 true false
+*******************************************
+Task N: sugar 30000 false false
+*******************************************
+**** Adding new ingredient: sugar 30000 false false
+*******************************************
+Task N: marmelade 20000 true false
+*******************************************
+**** Adding new ingredient: marmelade 20000 true false
+*******************************************
+Task N: creme 100 false true
+*******************************************
+**** Adding new ingredient: creme 100 false true
+*******************************************
+Task S: 
+*******************************************
+**** Stock :      
+* Ingredient creme: 100
+      Contains milk
+* Ingredient marmelade: 20000
+      Contains gluten
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
+      Contains gluten
+*******************************************
+Task A: true false
+*******************************************
+**** Ingredients with gluten:  
+* Ingredient flour: 20000
+* Ingredient marmelade: 20000
+*******************************************
+Task A: false true
+*******************************************
+**** Ingredients with milk:  
+* Ingredient creme: 100
+*******************************************
+Task A: false false
+*******************************************
+++++ ERROR Showing allergens: allergen not determined
+
