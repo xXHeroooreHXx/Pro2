@@ -28,20 +28,19 @@ check:boolean = true;
 begin
 	while ((check = true) AND (i<=length(line)) AND (line[i]<>'#' )) do begin
 		
-		 if (line[i]<>' ') AND (parameter='')
+		 if (line[i]<>' ')
 		 then begin
 			Insert(line[i],parameter,j);
 			j:=j+1;
 		 end; 
-		 if ((line[i+1]=' ')AND(line[i+2]=' ')AND(parameter<>''))
+		 if ((line[i+1]=' ')AND(parameter<>''))
 		 then
 			check:=false;
 		
 		i:=i+1;
 
 end;
-
-	SaveParameter:=parameter;
+	SaveParameter:=trim(parameter);
 end; 
 
 
@@ -55,7 +54,7 @@ var
 
 begin
 	
-	q:=createEmptyQueue;
+	createEmptyQueue(q);
 	
 	{$i-}
 		assign(fileId, taskFile);
