@@ -24,24 +24,20 @@ unit RequestQueue;
 		
 	
 	
-	function createEmptyQueue:tQueue;
+	procedure createEmptyQueue(var Queue:tQueue);
 	function isEmptyQueue(Queue:tQueue):Boolean;
-<<<<<<< HEAD
-	function enqueue(var Queue:tQueue; i:tItemQ):Boolean;
-=======
 	function enqueue(VAR Queue:tQueue; i:tItemQ):Boolean;
->>>>>>> df32676c5900df9d0e013de5401146b3cf1ac86d
 	function front(Queue:tQueue):tItemQ;
 	procedure dequeue(VAR Queue:tQueue);
 	
 	implementation
 	
-	function createEmptyQueue:tQueue;
+	procedure createEmptyQueue(var Queue:tQueue);
 	(*Crea una cola vacía.
 	PostCD: La cola queda inicializada y vacía.*)
 	begin
-		createEmptyQueue.ini:=NULLQ;
-		createEmptyQueue.fin:=NULLQ;
+		Queue.ini:=NULLQ;
+		Queue.fin:=NULLQ;
 	end;
 	
 	function isEmptyQueue(Queue:tQueue):Boolean;
@@ -60,12 +56,8 @@ unit RequestQueue;
 		end;
 	end;
 	
-<<<<<<< HEAD
-	function enqueue(var Queue:tQueue; i:tItemQ):boolean;
-=======
 	function enqueue(VAR Queue:tQueue; i:tItemQ):boolean;
 	(*Inserta un nuevo elemento (tItemQ) en la cola. Devuelve false si no hay memoria suficiente para realizar la operación.*)
->>>>>>> df32676c5900df9d0e013de5401146b3cf1ac86d
 	var newNode:tPosQ;
 	begin
 		createNode(i,newNode);
