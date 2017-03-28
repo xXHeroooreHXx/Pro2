@@ -26,14 +26,14 @@ parameter:string[20]='';
 j:integer = 1;
 check:boolean = true;
 begin
-	while (check = true) AND (i<=length(line)) AND (line[i]<>'#' ) do begin
+	while ((check = true) AND (i<=length(line)) AND (line[i]<>'#' )) do begin
 		
 		 if (line[i]<>' ') AND (parameter='')
 		 then begin
 			Insert(line[i],parameter,j);
 			j:=j+1;
 		 end; 
-		 if (line[i+1]=' ')AND(line[i+2]=' ')AND(parameter<>'')
+		 if ((line[i+1]=' ')AND(line[i+2]=' ')AND(parameter<>''))
 		 then
 			check:=false;
 		

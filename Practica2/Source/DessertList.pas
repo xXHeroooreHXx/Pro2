@@ -1,10 +1,10 @@
 {
 TITLE: PROGRAMMING II LABS  
-SUBTITLE: Practical 1
+SUBTITLE: Practical 2
 AUTHOR 1: Julián Penedo Carrodeguas LOGIN 1: j.pcarrodeguas
 AUTHOR 2: Pablo Ramos Muras LOGIN 2: pablo.muras 
 GROUP: 4.2  
-DATE: 14/03/2017
+DATE: 28/03/2017
 }
 
 unit DessertList;
@@ -90,9 +90,8 @@ unit DessertList;
 			previousD:=p-1;
 	end;
 	
-	function insertItemDD(i:tItemD; p:tPosD; var L:tListD):boolean;
-	(*Inserta un elemento con los datos indicados en la lista, inmediatamente antes de la posición indicada. 
-	Si dicha posición indicada es NULL, entonces el elemento se añade al final.
+	function insertItemD(i:tItemD; p:tPosD; var L:tListD):boolean;
+	(*Inserta un elemento con los datos indicados en la lista, en la posición que le corresponde según la ordenación utilizada.
 	Si el elemento en cuestión pudo ser insertado, se devuelve un valor true; sino se devuelve false.
 	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULL).
 	PostCD: Las posiciones de los elementos de la lista a continuación del insertado dejan de ser válidas.*)
@@ -100,10 +99,10 @@ unit DessertList;
 		q:tPosD;	
 	begin
 		if L.endlist = MAX then
-			insertItemDD:=false
+			insertItemD:=false
 		else
 			begin
-				insertItemDD:=true;
+				insertItemD:=true;
 				L.endList:=L.endList+1;
 				if p = NULL then
 					L.data[L.endList]:=i
@@ -128,11 +127,11 @@ unit DessertList;
 		L.endList:=L.endList-1;
 	end;
 	
-	function getItemDD (p:tPosD; L:tListD):tItemD;
+	function getItemD (p:tPosD; L:tListD):tItemD;
 	(*Devuelve el contenido del elemento de la lista que ocupa la posición indicada.
 	PreCD: La posición indicada es una posición válida en la lista.*)
 	begin
-		getItemDD:=L.data[p];
+		getItemD:=L.data[p];
 	end;
 	
 	procedure updateItem (VAR L:tListD; p:tPosD; i:tItemD);
@@ -144,7 +143,8 @@ unit DessertList;
 	end;
 	
 	function findItemD (name:tnDessert; L:tListD):tPosD;
-	(*Devuelve la posición del primer elemento de la lista cuyo nombre de ingrediente se corresponda con el indicado (o NULL si no existe tal elemento).*)
+	(*Devuelve la posición del primer elemento de la lista cuyo nombre de ingrediente se corresponda con el indicado (o NULL si no existe tal elemento).
+	Deja de buscar si todavia no ha encontrado un elemento pero encuentra un elemento con una posición posterior al buscado*)
 	var
 		p:tPosD;
 	begin

@@ -4,7 +4,7 @@ SUBTITLE: Practical 1
 AUTHOR 1: Julián Penedo Carrodeguas LOGIN 1: j.pcarrodeguas
 AUTHOR 2: Pablo Ramos Muras LOGIN 2: pablo.muras 
 GROUP: 4.2  
-DATE: 14/03/2017
+DATE: 28/03/2017
 }
 
 unit IngredientList;
@@ -183,7 +183,8 @@ unit IngredientList;
 	procedure updateItemI(L:tListI;p:tPosI;i:tItemI);
 	(*Modifica el contenido del elemento situado en la posición indicada.
 	PreCD: La posición indicada es una posición válida en la lista.
-	PostCD: El orden de los elementos de la lista no se ve modificado.*)begin
+	PostCD: El orden de los elementos de la lista no se ve modificado.*)
+	begin
 		p^.item:=i;
 	end;
 
