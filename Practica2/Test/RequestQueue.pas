@@ -26,7 +26,7 @@ unit RequestQueue;
 	
 	function createEmptyQueue:tQueue;
 	function isEmptyQueue(Queue:tQueue):Boolean;
-	function enqueue(Queue:tQueue; i:tItemQ):Boolean;
+	function enqueue(var Queue:tQueue; i:tItemQ):Boolean;
 	function front(Queue:tQueue):tItemQ;
 	procedure dequeue(VAR Queue:tQueue);
 	
@@ -53,7 +53,7 @@ unit RequestQueue;
 		end;
 	end;
 	
-	function enqueue(Queue:tQueue; i:tItemQ):boolean;
+	function enqueue(var Queue:tQueue; i:tItemQ):boolean;
 	var newNode:tPosQ;
 	begin
 		createNode(i,newNode);
