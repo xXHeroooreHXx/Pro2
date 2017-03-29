@@ -9,7 +9,7 @@ DATE: 28/03/2017
 
 unit DessertList;
 	interface
-	uses IngredientList;
+	uses IngredientList,sysutils;
 
 	const
 		MAX=100;
@@ -35,9 +35,9 @@ unit DessertList;
 	function lastD(L:tListD):tPosD;
 	function nextD(p:tPosD; L:tListD):tPosD;
 	function previousD(p:tPosD; L:tListD):tPosD;
-	function insertItemDD(i:tItemD; p:tPosD; var L:tListD):boolean;
+	function insertItemD(i:tItemD; var L:tListD):boolean;
 	procedure deleteAtPositionD (p:tPosD; VAR L:tListD);
-	function getItemDD (p:tPosD; L:tListD):tItemD;
+	function getItemD (p:tPosD; L:tListD):tItemD;
 	procedure updateItemD (VAR L:tListD; p:tPosD; i:tItemD);
 	function findItemD (name:tnDessert; L:tListD):tPosD;
 	
@@ -90,18 +90,27 @@ unit DessertList;
 			previousD:=p-1;
 	end;
 	
-	function insertItemD(i:tItemD; p:tPosD; var L:tListD):boolean;
+	function insertItemD(i:tItemD; var L:tListD):boolean;
 	(*Inserta un elemento con los datos indicados en la lista, en la posición que le corresponde según la ordenación utilizada.
 	Si el elemento en cuestión pudo ser insertado, se devuelve un valor true; sino se devuelve false.
 	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULL).
 	PostCD: Las posiciones de los elementos de la lista a continuación del insertado dejan de ser válidas.*)
 	var
-		q:tPosD;	
+		q,p:tPosD;	
 	begin
 		if L.endlist = MAX then
 			insertItemD:=false
-		else
-			begin
+		else begin
+			if(isEmptyListD(L)) then begin
+				insertItemD:=true;
+				L.endList:=L.endList+1;
+				L.data[1] := i;
+			end
+			else begin
+				p:=firstD(l);
+				while ((p<>NULL)AND(CompareText(i.nDessert,L.data[p].nDessert)>0)) do
+						p:=nextD(p,l);
+				
 				insertItemD:=true;
 				L.endList:=L.endList+1;
 				if p = NULL then
@@ -109,11 +118,12 @@ unit DessertList;
 				else begin
 					for q:=L.endList downto p+1 do
 						L.data[q]:=L.data[q-1];
-						
 					L.data[p]:=i;
 				end;
 			end;
+		end;
 	end;
+
 	
 	procedure deleteAtPositionD (p:tPosD; VAR L:tListD);
 	(*Elimina de la lista el elemento que ocupa la posición indicada.
@@ -134,7 +144,7 @@ unit DessertList;
 		getItemD:=L.data[p];
 	end;
 	
-	procedure updateItemD (VAR L:tListD; p:tPosD; i:tItemD);
+	procedure updateItemD(VAR L:tListD; p:tPosD; i:tItemD);
 	(*Modifica el contenido del elemento situado en la posición indicada.
 	PreCD: La posición indicada es una posición válida en la lista.
 	PostCD: El orden de los elementos de la lista no se ve modificado.*)
@@ -150,7 +160,7 @@ unit DessertList;
 	begin
 		findItemD:=NULL;
 		p:=firstD(L);
-		while ((findItemD=NULL) AND (p <> NULL)) do
+		while ((p <> NULL)AND(CompareText(name,L.data[p].nDessert)>=0))  do
 		begin
 			if (L.data[p].nDessert=name) then
 				findItemD:=p;

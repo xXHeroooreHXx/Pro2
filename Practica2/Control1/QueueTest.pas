@@ -22,11 +22,13 @@ end;
 
 function SaveParameter(line:String;var i:integer):String;
 var
-parameter:string[20]='';
-j:integer = 1;
-check:boolean = true;
+
+	parameter:string[20]='';
+	j:integer = 1;
+	check:boolean = true;
+
 begin
-	while ((check = true) AND (i<=length(line)) AND (line[i]<>'#' )) do begin
+	while ((check = true) AND (i<=length(line)) AND (line[i]<>'#')) do begin
 		
 		 if (line[i]<>' ')
 		 then begin
