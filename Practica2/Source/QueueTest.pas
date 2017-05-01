@@ -1,6 +1,24 @@
-program Practica2;
+program TestUnit;
 
+//uses list;
+//uses StaticList;
 uses RequestQueue,crt,sysutils;
+
+procedure print_and_dequeue(Q : tQueue);
+
+begin
+   write('(');
+   if not isEmptyQueue(Q) then
+   begin
+      while not isEmptyQueue(Q) do
+      begin
+		writeln(' ',front(Q).code,' ',front(Q).parameter1,' ',front(Q).parameter2,' ',front(Q).parameter3,' ',front(Q).parameter4);
+		dequeue(Q);
+      end;
+   end;
+   writeln(')');
+
+end;
 
 function SaveParameter(line:String;var i:integer):String;
 var
@@ -60,6 +78,7 @@ begin
         enqueue(q,d);
         i:=2;
     end;
+	print_and_dequeue(q);
 
 
 
