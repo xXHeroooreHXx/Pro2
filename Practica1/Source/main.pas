@@ -47,7 +47,7 @@ program main;
 		writeln('++++ ',error1,' ',error2,' ',error3);
 	end;
 	
-	procedure DeleteList(L:tList);
+	procedure DeleteList(var L:tList);
 	begin
 		while NOT isEmptyList(L) do
 			deleteAtPosition(last(L),L);
@@ -172,8 +172,8 @@ program main;
 							exist:=true;
 						end;
 						imprimirItem(i);
-						p:=next(p,lista);
-					end;	
+					end;
+					p:=next(p,lista);
 				end;
 				if NOT exist then
 					imprimirLinea('Current','stock','completely','allergen-free','');

@@ -181,8 +181,8 @@ program main;
 							exist:=true;
 						end;
 						imprimirItem(i);
-						p:=nextI(p,lista);
-					end;	
+					end;
+					p:=nextI(p,lista);	
 				end;
 				if NOT exist then
 					imprimirLinea('Current','stock','completely','allergen-free','');
