@@ -331,6 +331,8 @@ var
     fileId : Text;
     line:string;
     i:integer = 2;
+    Postres:tListD;
+    Ingredientes:tListI;                                  
 
 begin
 	
@@ -356,6 +358,45 @@ begin
         enqueue(q,d);
         i:=2;
     end;
+    
+    while(NOT(isEmptyQueue(q))) do begin
+		d:=front(q);
+		writeln('*******************************************');
+ 		writeln('TASK ', d.code,': ',d.parameter1,' ',d.parameter2,' ',d.parameter3,' ',d.parameter4);
+		writeln('*******************************************');
+		case d.code of
+			'N', 'n': begin 
+					  
+					  end;	
+			'M', 'm': begin 
+					  
+					  end;
+			'R', 'r': begin
+		
+					  end;
+			'A', 'a': begin 
+
+					  end;
+			'S', 's': begin 
+
+					  end;
+			'D', 'd': begin 
+					  
+					  end;
+			'I', 'i': begin
+		
+					  end;
+			'T', 't': begin 
+
+					  end;
+			'V', 'v': begin 
+
+					  end;
+			'O', 'o': begin 
+
+					  end;
+		end;
+	end;
 
 
 

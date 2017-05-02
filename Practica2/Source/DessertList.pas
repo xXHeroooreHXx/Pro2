@@ -13,7 +13,7 @@ unit DessertList;
 
 	const
 		MAX=100;
-		NULL=0;
+		NULLD=0;
 			
 	type
 		tnDessert=string;
@@ -23,7 +23,7 @@ unit DessertList;
 			price:tPrice;
 			recipe:tListI;
 		end;
-		tPosD= NULL..MAX;
+		tPosD= NULLD..MAX;
 		tListD= record 
 			data:array [1..MAX] of tItemD;
 			endList: tPosD;
@@ -47,13 +47,13 @@ unit DessertList;
 	(*Crea una lista vacía.
 	PostCD: La lista queda inicializada y no contiene elementos.*)
 	begin
-		L.endList:=NULL;
+		L.endList:=NULLD;
 	end;
 	
 	function isEmptyListD(L:tListD):boolean;
 	(*Determina si la lista está vacía.*)
 	begin
-		isEmptyListD:=(L.endList=NULL);
+		isEmptyListD:=(L.endList=NULLD);
 	end;
 	
 	function firstD(L:tListD):tPosD;
@@ -71,21 +71,21 @@ unit DessertList;
 	end;
 	
 	function nextD(p:tPosD; L:tListD):tPosD;
-	(*Devuelve la posición en la lista del elemento siguiente al de la posición indicada (o NULL si la posición no tiene siguiente).
+	(*Devuelve la posición en la lista del elemento siguiente al de la posición indicada (o NULLD si la posición no tiene siguiente).
 	PreCD: La posición indicada es una posición válida en la lista.*)
 	begin
 		if p=l.endlist then
-			nextD:=NULL
+			nextD:=NULLD
 		else 
 			nextD:=p+1;
 	end;
 	
 	function previousD(p:tPosD; L:tListD):tPosD;
-	(*Devuelve la posición en la lista del elemento anterior al de la posición indicada (o NULL si la posición no tiene anterior).
+	(*Devuelve la posición en la lista del elemento anterior al de la posición indicada (o NULLD si la posición no tiene anterior).
 	PreCD: La posición indicada es una posición válida en la lista.*)
 	begin
 		if p=firstD(L) then
-			previousD:=NULL
+			previousD:=NULLD
 		else 
 			previousD:=p-1;
 	end;
@@ -93,7 +93,7 @@ unit DessertList;
 	function insertItemD(i:tItemD; var L:tListD):boolean;
 	(*Inserta un elemento con los datos indicados en la lista, en la posición que le corresponde según la ordenación utilizada.
 	Si el elemento en cuestión pudo ser insertado, se devuelve un valor true; sino se devuelve false.
-	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULL).
+	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULLD).
 	PostCD: Las posiciones de los elementos de la lista a continuación del insertado dejan de ser válidas.*)
 	var
 		q,p:tPosD;	
@@ -108,12 +108,12 @@ unit DessertList;
 			end
 			else begin
 				p:=firstD(l);
-				while ((p<>NULL)AND(CompareText(i.nDessert,L.data[p].nDessert)>0)) do
+				while ((p<>NULLD)AND(CompareText(i.nDessert,L.data[p].nDessert)>0)) do
 						p:=nextD(p,l);
 				
 				insertItemD:=true;
 				L.endList:=L.endList+1;
-				if p = NULL then
+				if p = NULLD then
 					L.data[L.endList]:=i
 				else begin
 					for q:=L.endList downto p+1 do
@@ -153,14 +153,14 @@ unit DessertList;
 	end;
 	
 	function findItemD (name:tnDessert; L:tListD):tPosD;
-	(*Devuelve la posición del primer elemento de la lista cuyo nombre de ingrediente se corresponda con el indicado (o NULL si no existe tal elemento).
+	(*Devuelve la posición del primer elemento de la lista cuyo nombre de ingrediente se corresponda con el indicado (o NULLD si no existe tal elemento).
 	Deja de buscar si todavia no ha encontrado un elemento pero encuentra un elemento con una posición posterior al buscado*)
 	var
 		p:tPosD;
 	begin
-		findItemD:=NULL;
+		findItemD:=NULLD;
 		p:=firstD(L);
-		while ((p <> NULL)AND(CompareText(name,L.data[p].nDessert)>=0))  do
+		while ((p <> NULLD)AND(CompareText(name,L.data[p].nDessert)>=0))  do
 		begin
 			if (L.data[p].nDessert=name) then
 				findItemD:=p;
