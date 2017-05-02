@@ -134,6 +134,7 @@ program main;
 		pos:tPosI; //posición que recorre la lista
 		item:tItemI;//item donde se vuelcan los datos
 		cont:integer=0;//contador de eliminados
+		deleted:boolean;//Indica si en esa iteracción se ha eliminado algún elemento.
 	begin
 		imprimirLinea('Removing' ,'ingredients', 'with', 'quantity inferior to',IntToStr(Quantity));
 		if(isEmptyListI(list)) then
@@ -141,13 +142,19 @@ program main;
 		else begin
 			pos:=firstI(list);
 			while(pos<>NULLI) do begin
+				deleted:=false;
 				item:=getItemI(pos,list);
 				if(item.quantity<Quantity) then begin
 					writeln('* Ingredient ',item.nIngredient,': ',IntToStr(item.quantity));
 					deleteAtPositionI(pos,list);
 					cont:=cont+1;
+					deleted:=true;
 				end;
-				pos:=nextI(pos,list);
+				if(deleted)
+				then
+					pos:=firstI(list)	
+				else
+					pos:=nextI(pos,list);
 			end;
 			if(cont=0) then
 				imprimirLinea('No','ingredients','found' ,'in' ,'stock')
@@ -252,15 +259,17 @@ program main;
 						imprimirLinea('Stock',':',' ',' ',' ');
 				while(q<>NULLI) do begin
 					item:=getItemI(q,lista);
-					if((item.quantity<Quantity)AND(withQuantity))
-						then begin
-							printed:=true;                      (*Caso con cantidad mínima.*)
-							imprimirItem(item);
-							total:=total+1;
-							if(item.allergens.gluten)
-								then gluten:=gluten+1;
-							if(item.allergens.milk)
-								then milk:=milk+1;
+					if(withQuantity) then begin	
+						if(item.quantity<Quantity)
+							then begin
+								printed:=true;                      (*Caso con cantidad mínima.*)
+								imprimirItem(item);
+								total:=total+1;
+								if(item.allergens.gluten)
+									then gluten:=gluten+1;
+								if(item.allergens.milk)
+									then milk:=milk+1;
+							end;
 						end
 						else begin
 							item:=getItemI(q,lista);
@@ -272,7 +281,7 @@ program main;
 								then milk:=milk+1;
 							end;
 						q:=previousI(q,lista);
-					end;		
+						end;		
 			if(withQuantity)AND(NOT(printed))
 				then imprimirLinea('No','ingredients','below','the','threshold');
 	
