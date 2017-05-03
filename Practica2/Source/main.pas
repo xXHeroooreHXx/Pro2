@@ -47,6 +47,33 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 		writeln('++++ ',error1,' ',error2,' ',error3);
 	end;
 	
+	procedure imprimirPostre(postre:titemD,listaD:tListD);
+	var p:tPosI;
+		milk:tMilk;
+		gluten:tGluten;
+	begin
+		writeln(postre.nDessert,': ', postre.price,'.');
+		p:=firstI(listaI);
+		if p = NULLI
+			then writeln('Recipe not included.')
+		else begin
+			milk:=false;
+			gluten:=false;
+			write('Contains: ');
+			while p <> NULLI do
+				write(p.item.nIngredient,' ');
+				milk:= milk AND p.item.allergen.milk;
+				gluten:= gluten AND p.item.allergen.gluten;
+				p:=nextD(p,listaD)
+			writeln('');
+			if NOT gluten
+				then writeln('Gluten Free.')
+			if NOT milk
+				then writeln('Milk Free.')
+			writeln('')
+		end;
+	end;
+	
 	procedure DeleteList(var L:tListI; var D:tListD);
 	var
 		itemD:tItemD;
@@ -342,7 +369,45 @@ procedure addIngredient(nPostre:tnDessert; nIngrediente:tnIngredient; cant:tQuan
 									updateItemD(listaD,p,itemD);
 								end;
 							end;
-	end;	
+	end;
+
+procedure TakeOff(nPostre:tnDessert; var listaD:tListD );
+	var 	
+		item:titemD;
+	begin
+		if findItemD(nPostre,listaD) = NULLD
+			then imprimirError('ERROR Taking off dessert ',nPostre,': dessert does not exist ')
+		else begin
+			item:=getItemD(findItemD(nPostre,listaD),listaD);
+			while NOT isEmptyListI(item.recipe) then
+				deleteAtPositionI(firstI(item.recipe),item.recipe);
+			updateItemD(listaD,item);
+			deleteAtPositionD(findItemD(nPostre,listaD),listaD);
+			imprimirLinea('Removing Dessert', nPostre,'from the menu');
+		end;
+	end;
+
+procedure Visualize(listaD:tListD);
+	var
+		p:tPosD;	
+	begin
+		if isEmptyListD(listaD)
+			then imprimirLinea('Menu','not','available','','')
+		else begin
+			imprimirLinea('Menu',' ****','','','');
+			while p <> NULLD do
+				imprimirPostre(getItemD(p,listaD),listaD);
+				p:=nextD(p,listaD);
+		end;
+	end;
+
+procedure Order(listaD:tListD);
+	var
+
+	begin
+	end;
+
+	
 
 function SaveParameter(line:String;var i:integer):String;
 var
