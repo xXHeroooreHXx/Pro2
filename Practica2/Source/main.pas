@@ -1,16 +1,16 @@
 {
 TITLE: PROGRAMMING II LABS  
-SUBTITLE: Practical 1
+SUBTITLE: Practical 2
 AUTHOR 1: Julián Penedo Carrodeguas LOGIN 1: j.pcarrodeguas
 AUTHOR 2: Pablo Ramos Muras LOGIN 2: pablo.muras 
 GROUP: 4.2  
-DATE: 14/03/2017
+DATE: 02/05/2017
 }
 
-program main;
 
-	
-	uses IngredientList,DessertList,RequestQueue,crt,sysutils;
+program Practica2;
+
+uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 
 ////////////////////////////////Funciones Internas//////////////////////	
 	
@@ -134,7 +134,6 @@ program main;
 		pos:tPosI; //posición que recorre la lista
 		item:tItemI;//item donde se vuelcan los datos
 		cont:integer=0;//contador de eliminados
-		deleted:boolean;//Indica si en esa iteracción se ha eliminado algún elemento.
 	begin
 		imprimirLinea('Removing' ,'ingredients', 'with', 'quantity inferior to',IntToStr(Quantity));
 		if(isEmptyListI(list)) then
@@ -142,19 +141,13 @@ program main;
 		else begin
 			pos:=firstI(list);
 			while(pos<>NULLI) do begin
-				deleted:=false;
 				item:=getItemI(pos,list);
 				if(item.quantity<Quantity) then begin
 					writeln('* Ingredient ',item.nIngredient,': ',IntToStr(item.quantity));
 					deleteAtPositionI(pos,list);
 					cont:=cont+1;
-					deleted:=true;
 				end;
-				if(deleted)
-				then
-					pos:=firstI(list)	
-				else
-					pos:=nextI(pos,list);
+				pos:=nextI(pos,list);
 			end;
 			if(cont=0) then
 				imprimirLinea('No','ingredients','found' ,'in' ,'stock')
@@ -188,8 +181,8 @@ program main;
 							exist:=true;
 						end;
 						imprimirItem(i);
-					end;
-					p:=nextI(p,lista);	
+						p:=nextI(p,lista);
+					end;	
 				end;
 				if NOT exist then
 					imprimirLinea('Current','stock','completely','allergen-free','');
@@ -259,17 +252,15 @@ program main;
 						imprimirLinea('Stock',':',' ',' ',' ');
 				while(q<>NULLI) do begin
 					item:=getItemI(q,lista);
-					if(withQuantity) then begin	
-						if(item.quantity<Quantity)
-							then begin
-								printed:=true;                      (*Caso con cantidad mínima.*)
-								imprimirItem(item);
-								total:=total+1;
-								if(item.allergens.gluten)
-									then gluten:=gluten+1;
-								if(item.allergens.milk)
-									then milk:=milk+1;
-							end;
+					if((item.quantity<Quantity)AND(withQuantity))
+						then begin
+							printed:=true;                      (*Caso con cantidad mínima.*)
+							imprimirItem(item);
+							total:=total+1;
+							if(item.allergens.gluten)
+								then gluten:=gluten+1;
+							if(item.allergens.milk)
+								then milk:=milk+1;
 						end
 						else begin
 							item:=getItemI(q,lista);
@@ -281,7 +272,7 @@ program main;
 								then milk:=milk+1;
 							end;
 						q:=previousI(q,lista);
-						end;		
+					end;		
 			if(withQuantity)AND(NOT(printed))
 				then imprimirLinea('No','ingredients','below','the','threshold');
 	
@@ -298,6 +289,60 @@ program main;
 			end;
 		end;
 	end;
+	
+	procedure newDesert(nPostre:tnDessert; precio:tPrice ;var lista:tListD);
+	var
+		item:tItemD; //Item a insertar
+		sPrecio:string; //Cantidad en string para imprimir más comodo
+		recipe:tListI;
+	begin
+		Str(precio,sPrecio);
+		if(precio<=0)
+			then imprimirError('ERROR Adding new dessert:','Invalid','Price')
+			else begin
+				if(findItemD(nPostre,lista)<>NULL)
+					then imprimirError('ERROR Adding new dessert',nPostre,'already exists')
+					else begin
+						item.nDessert:=nPostre;
+						item.price:=precio;
+						createEmptyListI(recipe);
+						item.recipe:=recipe;
+						if NOT(insertItemD(item,lista))
+							then imprimirLinea('WARNING: Out of memory','for','adding', 'dessert',nPostre)
+						else
+							imprimirLinea('Adding new dessert to', 'menu: ', nPostre, sPrecio, ' euros');
+					end;
+			end;	
+	end;
+
+procedure addIngredient(nPostre:tnDessert; nIngrediente:tnIngredient; cant:tQuantity;var listaD:tListD; listaI:tListI );
+	var
+		p:tPosD; //Item a insertar
+		sCant:string; //Cantidad en string para imprimir más comodo
+		item:tItemI;
+		itemD:tItemD;
+	begin
+		Str(cant, sCant);
+		p:=findItemD(nPostre,listaD);
+		if(p=NULLD)
+			then imprimirError('ERROR Adding Ingredient do dessert',nPostre,': dessert does not exist')
+			else
+				if(findItemI(nIngrediente,getItemD(p, listaD).recipe)<>NULLI)
+					then imprimirError('ERROR Adding Ingredient to dessert',nPostre ,': ingredient ', nIngrediente,'already exists')
+				else 
+					if(cant<=0)
+							then imprimirError('ERROR Adding Ingredient to dessert', nPostre ,': Invalid quantity')
+							else begin
+								item:=getItemI(findItemI(nIngrediente,listaI),listaI);
+								itemD:=getItemD(p,listaD);
+								if NOT(insertItemI(item,NULLI,itemD.recipe))
+									then imprimirLinea('WARNING: Out of memory','for','adding', 'dessert',nPostre)	
+								else begin
+									imprimirLinea('Adding new ingredient to dessert',nPostre ,': ', nIngrediente, sCant, boolToString(item.allergens.gluten), boolToString(item.allergens.milk));
+									updateItemD(listaD,p,itemD);
+								end;
+							end;
+	end;	
 
 function SaveParameter(line:String;var i:integer):String;
 var
@@ -331,8 +376,6 @@ var
     fileId : Text;
     line:string;
     i:integer = 2;
-    Postres:tListD;
-    Ingredientes:tListI;                                  
 
 begin
 	
@@ -358,57 +401,7 @@ begin
         enqueue(q,d);
         i:=2;
     end;
-    
-    while(NOT(isEmptyQueue(q))) do begin
-		d:=front(q);
-		writeln('*******************************************');
- 		writeln('TASK ', d.code,': ',d.parameter1,' ',d.parameter2,' ',d.parameter3,' ',d.parameter4);
-		writeln('*******************************************');
-		case d.code of
-			'N', 'n': begin 
-					  
-					  end;	
-			'M', 'm': begin 
-					  
-					  end;
-			'R', 'r': begin
-		
-					  end;
-			'A', 'a': begin 
-
-					  end;
-			'S', 's': begin 
-
-					  end;
-			'D', 'd': begin 
-					  
-					  end;
-			'I', 'i': begin
-		
-					  end;
-			'T', 't': begin 
-
-					  end;
-			'V', 'v': begin 
-
-					  end;
-			'O', 'o': begin 
-
-					  end;
-		end;
-	end;
-
-
-
 end;
 
-	
-	BEGIN
-	
-		if (paramCount>0) then
-			readTasks(ParamStr(1))
-		else
-			readTasks('New.txt');
-	
-
-END.
+begin
+end.
