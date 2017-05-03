@@ -1,4 +1,0 @@
-cd Source
-fpc main  -o ../Binarios/main
-fpc DynamicList -o ../Binarios/DynamicList.ppu
-fpc StaticList -o ../Binarios/StaticList.ppu
