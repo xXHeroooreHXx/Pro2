@@ -1,6 +1,0 @@
-N flour         200    true  false
-N sugar	        300    false false
-S
-M flour         200                                     #New quantity for ingredient flour (400)
-S
-M flour         0                                       #error: invalid quantity             
