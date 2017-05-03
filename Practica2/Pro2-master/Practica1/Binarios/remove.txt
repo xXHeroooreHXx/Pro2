@@ -1,0 +1,7 @@
+N flour         20000  true  false
+N sugar	        30000  false false
+N marmelade     20000  true  false
+N creme         100    false true
+S
+R 20001                                                 #remove flour, marmelade and creme
+S
