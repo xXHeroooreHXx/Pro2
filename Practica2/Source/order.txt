@@ -1,0 +1,26 @@
+N flour         2000         true    false
+N sugar	        3000         false   false
+N cacao         100          true    false
+N eggs          9            false   false
+N yogurt        3            false   true
+N oliveoil      200          false   false
+S                                                 #shows oliveoil(200),yogurt(3),eggs(9),cacao(100), sugar(3000),flour(2000)
+D YogurtCake    4.5
+I YogurtCake    yogurt       1
+I YogurtCake    eggs         3
+I YogurtCake    flour        300
+I YogurtCake    sugar        200
+I YogurtCake    oliveoil     70
+V                                                 #shows YogurtCake. Contains: yogurt eggs flour sugar oliveoil
+D ChocoCake     5
+I ChocoCake     yogurt       1
+I ChocoCake     eggs         3
+I ChocoCake     flour        200
+I ChocoCake     sugar        200
+I ChocoCake     oliveoil     70
+I ChocoCake     cacao        100
+V                                                #shows ChocoCake (with its ingredients), YogurtCake (with its ingredients)
+O IceCrChoco                                     # ERROR Order not attended. Unknown dessert IceCrChoco
+O YogurtCake                                     # Order attended. Preparing dessert YogurtCake. Stock updated. No ingredients removed
+S                                                #shows oliveoil(130),yogurt(2),eggs(6),cacao(100), sugar(2800),flour(1700)
+V                                                #shows ChocoCake (with its ingredients), YogurtCake (with its ingredients)

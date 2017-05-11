@@ -1,3 +1,11 @@
+{
+TITLE: PROGRAMMING II LABS  
+SUBTITLE: Practical 2
+AUTHOR 1: Julián Penedo Carrodeguas LOGIN 1: j.pcarrodeguas
+AUTHOR 2: Pablo Ramos Muras LOGIN 2: pablo.muras 
+GROUP: 4.2  
+DATE: 02/05/2017
+}
 unit RequestQueue;
 	interface
 	const

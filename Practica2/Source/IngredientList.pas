@@ -1,10 +1,10 @@
 {
 TITLE: PROGRAMMING II LABS  
-SUBTITLE: Practical 1
+SUBTITLE: Practical 2
 AUTHOR 1: Julián Penedo Carrodeguas LOGIN 1: j.pcarrodeguas
 AUTHOR 2: Pablo Ramos Muras LOGIN 2: pablo.muras 
 GROUP: 4.2  
-DATE: 28/03/2017
+DATE: 02/05/2017
 }
 
 unit IngredientList;
@@ -120,9 +120,7 @@ unit IngredientList;
 	end;
 
 	function insertItemI(i:tItemI; p:tPosI; var L:tListI):boolean;
-	(*Inserta un elemento con los datos indicados en la lista, inmediatamente antes de la posición indicada. 
-	Si dicha posición indicada es NULLI, entonces el elemento se añade al final.
-	Si el elemento en cuestión pudo ser insertado, se devuelve un valor true; sino se devuelve false.
+	(*Inserta un elemento con los datos indicados en la lista, ordenado segun el nombre del ingrediente
 	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULLI).
 	PostCD: Las posiciones de los elementos de la lista a continuación del insertado dejan de ser válidas.*)
 	var

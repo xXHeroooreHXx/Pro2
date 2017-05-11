@@ -1,0 +1,134 @@
+*******************************************
+TASK N: flour 2000 true false
+*******************************************
+**** Adding new ingredient: flour 2000 true true
+*******************************************
+TASK N: sugar 3000 false false
+*******************************************
+**** Adding new ingredient: sugar 3000 false true
+*******************************************
+TASK N: cacao 100 true false
+*******************************************
+**** Adding new ingredient: cacao 100 true true
+*******************************************
+TASK N: eggs 9 false false
+*******************************************
+**** Adding new ingredient: eggs 9 false true
+*******************************************
+TASK N: yogurt 3 false true
+*******************************************
+**** Adding new ingredient: yogurt 3 false true
+*******************************************
+TASK N: oliveoil 200 false false
+*******************************************
+**** Adding new ingredient: oliveoil 200 false true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient oliveoil: 200
+      Contains milk
+* Ingredient yogurt: 3
+      Contains milk
+* Ingredient eggs: 9
+      Contains milk
+* Ingredient cacao: 100
+      Contains gluten
+      Contains milk
+* Ingredient sugar: 3000
+      Contains milk
+* Ingredient flour: 2000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 6
+      33.3% contains gluten
+      100.0% contains milk
+*******************************************
+TASK D: YogurtCake 4.5  
+*******************************************
+**** Adding new dessert to menu:  YogurtCake 4.5  euros
+*******************************************
+TASK I: YogurtCake yogurt 1 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  yogurt 1
+*******************************************
+TASK I: YogurtCake eggs 3 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  eggs 3
+*******************************************
+TASK I: YogurtCake flour 300 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  flour 300
+*******************************************
+TASK I: YogurtCake sugar 200 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  sugar 200
+*******************************************
+TASK I: YogurtCake oliveoil 70 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  oliveoil 70
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+YogurtCake:  4.5000000000000000E+000.
+Contains: yogurt eggs flour sugar oliveoil 
+
+*******************************************
+TASK D: ChocoCake 5  
+*******************************************
+**** Adding new dessert to menu:  ChocoCake 5  euros
+*******************************************
+TASK I: ChocoCake yogurt 1 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  yogurt 1
+*******************************************
+TASK I: ChocoCake eggs 3 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  eggs 3
+*******************************************
+TASK I: ChocoCake flour 200 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  flour 200
+*******************************************
+TASK I: ChocoCake sugar 200 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  sugar 200
+*******************************************
+TASK I: ChocoCake oliveoil 70 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  oliveoil 70
+*******************************************
+TASK I: ChocoCake cacao 100 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  cacao 100
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake:  5.0000000000000000E+000.
+Contains: yogurt eggs flour sugar oliveoil cacao 
+
+YogurtCake:  4.5000000000000000E+000.
+Contains: yogurt eggs flour sugar oliveoil 
+
+*******************************************
+TASK O: IceCrChoco   
+*******************************************
+++++ Error Order Not attended. Unknown dessert IceCrChoco   
+*******************************************
+TASK O: YogurtCake   
+*******************************************
+**** DessertYogurtCake
+* Ingredientyogurt 3(available: 3)
+* Ingredienteggs 9(available: 9)
+* Ingredientflour 2000(available: 2000)
+* Ingredientsugar 3000(available: 3000)
+* Ingredientoliveoil 200(available: 200)
+**** Order attended. Preparing dessertYogurtCake
+**** Removing ingredientflourfrom stock
+**** Removing desserts that contains flour
+*Removing ChocoCake
+*Removing YogurtCake
+*Removing YogurtCake
+

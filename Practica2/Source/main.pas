@@ -8,7 +8,7 @@ DATE: 02/05/2017
 }
 
 
-program Practica2;
+program main;
 
 uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 
@@ -66,7 +66,7 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 	
 	procedure imprimirError(error1,error2,error3,error4,error5:string); (*Dos funciones encargadas de imprimir lineas con el formato correcto*)
 	begin
-		writeln('++++ ',error1,' ',error2,' ',error3);
+		writeln('++++ ',error1,' ',error2,' ',error3,' ',error4,' ',error5);
 	end;
 	
 	procedure imprimirPostre(postre:titemD);
@@ -115,6 +115,7 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 				ActualizarStockyMenu:=false;
 				writeln('**** Removing ingredient',itemI.nIngredient,'from stock');
 				deleteAtPositionI(posI,stock);
+				posI:=firstI(stock);
 				posD:=firstD(listaD);
 				while(posD<>NULLD) do begin
 					itemD:=getItemD(posD,listaD);
@@ -124,15 +125,18 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 						printed:=false;
 						writeln('*Removing ',itemD.nDessert);
 						deleteAtPositionD(posD,listaD);
-						posD:=nextD(posD,listaD);
+						posD:=firstD(listaD);
 					end;
-
+					
+					if(nextD(posD,listaD)<>NULLD)then
+						posD:=nextD(posd,listaD);
 					
 				end;
 				if(printed)	then
 					writeln('**** No more desserts affected')
 			end;
 			posI:=nextI(posI,stock);
+			printed:=true;
 		end;
 	end;
 	
@@ -404,17 +408,19 @@ end;
 		end;
 	end;
 	
-	procedure newDesert(nPostre:tnDessert; precio:tPrice ;var lista:tListD);
+	procedure newDesert(nPostre:tnDessert; sprecio:string ;var lista:tListD);
 	var
 		item:tItemD; //Item a insertar
-		sPrecio:string; //Cantidad en string para imprimir más comodo
+		Precio:real; //Cantidad en string para imprimir más comodo
 		recipe:tListI;
+		format:TFormatSettings;
 	begin
-		Str(precio,sPrecio);
+		format.DecimalSeparator:='.';
+		precio := StrToFloat(sprecio,format);
 		if(precio<=0)
 			then imprimirError('ERROR Adding new dessert:','Invalid','Price','','')
 			else begin
-				if(findItemD(nPostre,lista)<>NULL)
+				if(findItemD(nPostre,lista)<>NULLD)
 					then imprimirError('ERROR Adding new dessert',nPostre,'already exists','','')
 					else begin
 						item.nDessert:=nPostre;
@@ -487,9 +493,10 @@ procedure Visualize(listaD:tListD);
 		else begin
 			p:=firstD(listaD);
 			imprimirLinea('Menu',' ****','','','','','');
-			while p <> NULLD do
+			while p <> NULLD do begin
 				imprimirPostre(getItemD(p,listaD));
 				p:=nextD(p,listaD);
+			end;
 		end;
 	end;
 
@@ -500,9 +507,8 @@ var
 	pos:tPosD;
 	itemD:tItemD;
 	notAvaliable,notRemoved:boolean;
-	posI:tPosI;
-	ingredienteStock:tItemI;
-	neededQuantity:tQuantity;
+	posI,q:tPosI;
+	ingredienteStock,i:tItemI;
 begin
 	pos:=findItemD(nDessert,listaD);
 	if(pos=NULLD) then
@@ -519,11 +525,12 @@ begin
 			writeln('**** Order attended. Preparing dessert',nDessert);
 			posI:=firstI(itemD.recipe);
 			while(posI<>NULLI) do begin
-				neededQuantity:=getItemI(posI,itemD.recipe).quantity;
-				ingredienteStock:=getItemI(findItemI(getItemI(posI,itemD.recipe).nIngredient,listaI),listaI);
-				ingredienteStock.quantity:= ingredienteStock.quantity-neededQuantity;
-				updateItemI(listaI,posI,ingredienteStock);
-				posI:=NextI(posI,listaI);
+				i:=getItemI(posI,itemD.recipe);
+				q:=findItemI(i.nIngredient,listaI);
+				ingredienteStock:=getItemI(q,listaI);
+				ingredienteStock.quantity:= (ingredienteStock.quantity-i.quantity);
+				updateItemI(listaI,q,ingredienteStock);
+				posI:=NextI(posI,itemD.recipe);
 			end;
 			notRemoved:= ActualizarStockyMenu(listaD,listaI);
 			if(notRemoved) then
@@ -533,7 +540,7 @@ begin
 end;
 
 
-procedure readTasks(taskFile:string;q:tQueue);
+procedure readTasks(taskFile:string;var q:tQueue);
 var 
     d: tItemQ;
     fileId : Text;
@@ -566,7 +573,7 @@ begin
 
 end;
 
-procedure execTask(q:tQueue);
+procedure execTask(var q:tQueue);
 var
     d: tItemQ;
     DessertList:tListD;
@@ -579,6 +586,7 @@ begin
 	    createEmptyListI(Despensa);
 	    while(NOT(isEmptyQueue(q))) do begin
 		d:=front(q);
+		dequeue(q);
 		writeln('*******************************************');
  		writeln('TASK ', d.code,': ',d.parameter1,' ',d.parameter2,' ',d.parameter3,' ',d.parameter4);
 		writeln('*******************************************');
@@ -626,7 +634,7 @@ begin
 						Stock(withQuantity,quantity,Despensa);
 					  end;
 			'D', 'd': begin 
-						
+						newDesert(d.parameter1,d.parameter2,DessertList);
 					  end;
 			'I', 'i': begin
 						val(d.parameter3,quantity);				
@@ -642,7 +650,6 @@ begin
 						Order(d.parameter1,DessertList,Despensa);
 					  end;
 		end;
-		dequeue(q);
 	end;
 
 end;
@@ -655,6 +662,6 @@ BEGIN
 		readTasks(ParamStr(1),queue)
 	else
 		readTasks('New.txt',queue);
-	
+	execTask(queue);
 
 END.
