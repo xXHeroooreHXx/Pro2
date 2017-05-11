@@ -113,7 +113,7 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 			itemI:=getItemI(posI,stock);
 			if(itemI.quantity = 0)then begin
 				ActualizarStockyMenu:=false;
-				writeln('**** Removing ingredient',itemI.nIngredient,'from stock');
+				writeln('**** Removing ingredient ',itemI.nIngredient,' from stock');
 				deleteAtPositionI(posI,stock);
 				posI:=firstI(stock);
 				posD:=firstD(listaD);
@@ -518,11 +518,11 @@ begin
 		notAvaliable:=imprimirReceta(itemD,listaI);
 		if(notAvaliable) then begin
 			writeln('**** Order not attended. Not enough Ingredients');
-			writeln('**** Removing dessert',nDessert,'from the menu');
+			writeln('**** Removing dessert ',nDessert,' from the menu');
 			deleteAtPositionD(pos,listaD);
 		end
 		else begin
-			writeln('**** Order attended. Preparing dessert',nDessert);
+			writeln('**** Order attended. Preparing dessert ',nDessert);
 			posI:=firstI(itemD.recipe);
 			while(posI<>NULLI) do begin
 				i:=getItemI(posI,itemD.recipe);
