@@ -533,18 +533,15 @@ begin
 end;
 
 
-procedure readTasks(taskFile:string);
+procedure readTasks(taskFile:string;q:tQueue);
 var 
-	q:tQueue;
     d: tItemQ;
     fileId : Text;
     line:string;
     i:integer = 2;
 
 begin
-	
-	createEmptyQueue(q);
-	
+		
 	{$i-}
 		assign(fileId, taskFile);
 		reset(fileId);
@@ -566,14 +563,26 @@ begin
         i:=2;
     end;
     
-    while(NOT(isEmptyQueue(q))) do begin
+
+end;
+
+procedure execTask(q:tQueue);
+var
+    d: tItemQ;
+    DessertList:tListD;
+    Stock:tListI;
+
+begin
+	    createEmptyListD(DessertList);
+	    createEmptyListI(Stock);
+	    while(NOT(isEmptyQueue(q))) do begin
 		d:=front(q);
 		writeln('*******************************************');
  		writeln('TASK ', d.code,': ',d.parameter1,' ',d.parameter2,' ',d.parameter3,' ',d.parameter4);
 		writeln('*******************************************');
 		case d.code of
 			'N', 'n': begin 
-					  
+
 					  end;	
 			'M', 'm': begin 
 					  
@@ -605,17 +614,18 @@ begin
 		end;
 	end;
 
-
-
 end;
+
+var
+queue:tQueue;
 
 	
 BEGIN
-	
+	createEmptyQueue(queue);
 	if (paramCount>0) then
-		readTasks(ParamStr(1))
+		readTasks(ParamStr(1),queue)
 	else
-		readTasks('New.txt');
+		readTasks('New.txt',queue);
 	
 
 END.
