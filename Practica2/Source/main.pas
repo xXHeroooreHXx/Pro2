@@ -570,11 +570,13 @@ procedure execTask(q:tQueue);
 var
     d: tItemQ;
     DessertList:tListD;
-    Stock:tListI;
-
+    Despensa:tListI;
+	quantity:tQuantity;
+	strquantity:string;
+	milk,gluten,withQuantity:boolean;
 begin
 	    createEmptyListD(DessertList);
-	    createEmptyListI(Stock);
+	    createEmptyListI(Despensa);
 	    while(NOT(isEmptyQueue(q))) do begin
 		d:=front(q);
 		writeln('*******************************************');
@@ -582,44 +584,71 @@ begin
 		writeln('*******************************************');
 		case d.code of
 			'N', 'n': begin 
-
+						
+						val(d.parameter2,quantity);				
+						//converts a string (true/false) to boolean
+						if not TryStrToBool(d.parameter3, gluten) then begin
+							writeln('**** Reading. Error reading data from queue');
+							halt(1);
+						end; 
+						if not TryStrToBool(d.parameter2, milk)then begin
+							writeln('**** Reading. Error reading data from queue');
+							halt(1);
+						end; 
+						newIngredient(d.parameter1,quantity,gluten,milk,despensa);
 					  end;	
 			'M', 'm': begin 
-					  
+						val(d.parameter2,quantity);
+						Modify(d.parameter1,quantity,Despensa);
 					  end;
 			'R', 'r': begin
-		
+						val(d.parameter1,quantity);
+						Remove(quantity,despensa);
 					  end;
 			'A', 'a': begin 
-
+						if not TryStrToBool(d.parameter1, gluten) then begin
+							writeln('**** Reading. Error reading data from queue');
+							halt(1);
+						end; 
+						if not TryStrToBool(d.parameter2, milk)then begin
+							writeln('**** Reading. Error reading data from queue');
+							halt(1);
+						end;
+						Allergens(gluten,milk,Despensa);  
 					  end;
 			'S', 's': begin 
-
+						strquantity:=d.parameter1;
+						if (strquantity <>'') then begin
+							val(strquantity,quantity);
+							withQuantity:=true;
+						end
+						else withQuantity:=false;
+						Stock(withQuantity,quantity,Despensa);
 					  end;
 			'D', 'd': begin 
-					  
+						
 					  end;
 			'I', 'i': begin
-		
-					  end;
+						val(d.parameter3,quantity);				
+						addIngredient(d.parameter1,d.parameter2,quantity,DessertList,Despensa)
+						end;
 			'T', 't': begin 
-
+						TakeOff(d.parameter1,DessertList);
 					  end;
 			'V', 'v': begin 
-
+						Visualize(DessertList);
 					  end;
 			'O', 'o': begin 
-
+						Order(d.parameter1,DessertList,Despensa);
 					  end;
 		end;
+		dequeue(q);
 	end;
 
 end;
 
 var
-queue:tQueue;
-
-	
+queue:tQueue;	
 BEGIN
 	createEmptyQueue(queue);
 	if (paramCount>0) then
