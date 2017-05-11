@@ -37,21 +37,45 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 		then writeln('      Contains milk');
 	end;
 	
-	procedure imprimirLinea(linea1:string;linea2:string;linea3:string;linea4:string;linea5:string);
+	function imprimirReceta(itemD:tItemD;stock:tListI):boolean;
+	var
+		recipe : tListI;
+		posI:tPosI;
+		item:tItemI;
+		stockQuantity:tQuantity;
+	begin	
+		writeln('**** Dessert',itemD.nDessert);
+		recipe:=itemD.recipe;
+		posI:=firstI(recipe);
+		imprimirReceta:=false;
+		while(posI<>NULLI) do begin
+			item:=getItemI(posI,recipe);
+			stockQuantity:=getItemI(findItemI(item.nIngredient,stock),stock).quantity;
+			writeln('* Ingredient', item.nIngredient,' ',item.quantity,'(available: ',stockQuantity,')');
+			if(stockQuantity - item.quantity)<0 then
+				imprimirReceta:=true;
+			posI:=nextI(posI,recipe);
+		end;
+		
+	end;
+	
+	procedure imprimirLinea(linea1,linea2,linea3,linea4,linea5,linea6,linea7:string);
 	begin
 		writeln('**** ',linea1,' ',linea2,' ',linea3,' ',linea4,' ',linea5);
 	end;
 	
-	procedure imprimirError(error1:string;error2:string;error3:string); (*Dos funciones encargadas de imprimir lineas con el formato correcto*)
+	procedure imprimirError(error1,error2,error3,error4,error5:string); (*Dos funciones encargadas de imprimir lineas con el formato correcto*)
 	begin
 		writeln('++++ ',error1,' ',error2,' ',error3);
 	end;
 	
-	procedure imprimirPostre(postre:titemD,listaD:tListD);
+	procedure imprimirPostre(postre:titemD);
 	var p:tPosI;
 		milk:tMilk;
 		gluten:tGluten;
+		listaI:tListI;
 	begin
+		listaI:=postre.recipe;
 		writeln(postre.nDessert,': ', postre.price,'.');
 		p:=firstI(listaI);
 		if p = NULLI
@@ -60,17 +84,55 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 			milk:=false;
 			gluten:=false;
 			write('Contains: ');
-			while p <> NULLI do
-				write(p.item.nIngredient,' ');
-				milk:= milk AND p.item.allergen.milk;
-				gluten:= gluten AND p.item.allergen.gluten;
-				p:=nextD(p,listaD)
-			writeln('');
+			while p <> NULLI do begin
+				write(getItemI(p,listaI).nIngredient,' ');
+				milk:= (milk OR getItemI(p,listaI).allergens.milk);
+				gluten:= (gluten OR getItemI(p,listaI).allergens.gluten);
+				p:=nextI(p,listaI)
+				end;
+			writeln;
 			if NOT gluten
-				then writeln('Gluten Free.')
+				then writeln('Gluten Free.');
 			if NOT milk
-				then writeln('Milk Free.')
-			writeln('')
+				then writeln('Milk Free.');
+			writeln;
+		end;
+	end;
+	
+	function ActualizarStockyMenu(var listaD:tListD; var stock:tListI):boolean;
+	var
+		posI:tPosI;
+		posD:tPosD;
+		itemI:tItemI;
+		itemD:tItemD;
+		printed:boolean = true;
+	begin
+		posI:=firstI(stock);
+		ActualizarStockyMenu:=true;
+		while(posI<>NULLI) do begin
+			itemI:=getItemI(posI,stock);
+			if(itemI.quantity = 0)then begin
+				ActualizarStockyMenu:=false;
+				writeln('**** Removing ingredient',itemI.nIngredient,'from stock');
+				deleteAtPositionI(posI,stock);
+				posD:=firstD(listaD);
+				while(posD<>NULLD) do begin
+					itemD:=getItemD(posD,listaD);
+					if(findItemI(itemI.nIngredient,itemD.recipe)<>NULLI) then begin
+						if(printed) then 
+							writeln('**** Removing desserts that contains ',itemI.nIngredient);
+						printed:=false;
+						writeln('*Removing ',itemD.nDessert);
+						deleteAtPositionD(posD,listaD);
+						posD:=nextD(posD,listaD);
+					end;
+
+					
+				end;
+				if(printed)	then
+					writeln('**** No more desserts affected')
+			end;
+			posI:=nextI(posI,stock);
 		end;
 	end;
 	
@@ -88,6 +150,31 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 		end;
 			
 	end;
+	
+	function SaveParameter(line:String;var i:integer):String;
+var
+
+	parameter:string[20]='';
+	j:integer = 1;
+	check:boolean = true;
+
+begin
+	while ((check = true) AND (i<=length(line)) AND (line[i]<>'#')) do begin
+		
+		 if (line[i]<>' ')
+		 then begin
+			Insert(line[i],parameter,j);
+			j:=j+1;
+		 end; 
+		 if ((line[i+1]=' ')AND(parameter<>''))
+		 then
+			check:=false;
+		
+		i:=i+1;
+
+end;
+	SaveParameter:=trim(parameter);
+end; 
 ////////////////////////////////////////////////////////////////////////
 		
 	procedure newIngredient(nIngrediente:tnIngredient;cant:tQuantity;gluten:tGluten;milk:tMilk;var lista:tListI);
@@ -101,19 +188,19 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 		sCant:string; //Cantidad en string para imprimir más comodo
 	begin
 		Str(cant,sCant);
-		imprimirLinea('Adding new ingredient:',nIngrediente,sCant,boolToString(gluten),boolToString(milk));
+		imprimirLinea('Adding new ingredient:',nIngrediente,sCant,boolToString(gluten),boolToString(milk),'','');
 		if(cant<=0)
-			then imprimirError('Error adding New:','Invalid','Quantity')
+			then imprimirError('Error adding New:','Invalid','Quantity','','')
 			else begin
 				if(findItemI(nIngrediente,lista)<>NULLI)
-					then imprimirError('ERROR Adding New: Ingredient',nIngrediente,'already exists')
+					then imprimirError('ERROR Adding New: Ingredient',nIngrediente,'already exists','','')
 					else begin
 						item.nIngredient := nIngrediente;
 						item.quantity := cant;
 						item.allergens.gluten := gluten;
 						item.allergens.milk := milk;
 						if NOT(insertItemI(item,NULLI,lista))
-							then imprimirLinea('WARNING: Out of memory','for','adding',nIngrediente,'ingredient');					
+							then imprimirLinea('WARNING: Out of memory','for','adding',nIngrediente,'ingredient','','');					
 					end;
 			end;	
 	end;
@@ -129,24 +216,24 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 		item:tItemI;//item donde volcar los datos.
 	begin
 		if(quantity=0) then
-			imprimirError('ERROR','Modifying:','invalid quantity') (*Caso cantidad = 0*)
+			imprimirError('ERROR','Modifying:','invalid quantity','','') (*Caso cantidad = 0*)
 		else begin
 			pos:=findItemI(nIngredient,list);
 			if(pos=NULLI) then
-				imprimirError('ERROR Modifying: ingredient',nIngredient,'does not exist') (*Caso en el que no existe el ingrediente a modificar*)
+				imprimirError('ERROR Modifying: ingredient',nIngredient,'does not exist','','') (*Caso en el que no existe el ingrediente a modificar*)
 			else begin
 				item := getItemI(pos,list);
 				item.quantity:=item.quantity+quantity;
 				if(item.quantity=0) then begin
-					imprimirLinea('Ingredient',nIngredient,'run out','of','stock'); (*El ingrediente se queda a 0, es eliminado.*)
+					imprimirLinea('Ingredient',nIngredient,'run out','of','stock','',''); (*El ingrediente se queda a 0, es eliminado.*)
 					deleteAtPositionI(pos,List);
 				end
 				else if(item.quantity>0) then begin	
 					updateItemI(list,pos,item);
-					imprimirLinea('New','quantity for ingredient',nIngredient,':',IntToStr(quantity)); (*El ingrediente es modificado normal*)
+					imprimirLinea('New','quantity for ingredient',nIngredient,':',IntToStr(quantity),'',''); (*El ingrediente es modificado normal*)
 				end
 				else
-					imprimirError('ERROR Modifying:','not enough','quantity');(*El ingrediente no tiene suficiente cantidad para ser modificado*)
+					imprimirError('ERROR Modifying:','not enough','quantity','','');(*El ingrediente no tiene suficiente cantidad para ser modificado*)
 			end;
 		end;
 	end;
@@ -162,9 +249,9 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 		item:tItemI;//item donde se vuelcan los datos
 		cont:integer=0;//contador de eliminados
 	begin
-		imprimirLinea('Removing' ,'ingredients', 'with', 'quantity inferior to',IntToStr(Quantity));
+		imprimirLinea('Removing' ,'ingredients', 'with', 'quantity inferior to',IntToStr(Quantity),'','');
 		if(isEmptyListI(list)) then
-			imprimirLinea('No','ingredients','found' ,'in' ,'stock')
+			imprimirLinea('No','ingredients','found' ,'in' ,'stock','','')
 		else begin
 			pos:=firstI(list);
 			while(pos<>NULLI) do begin
@@ -177,9 +264,9 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 				pos:=nextI(pos,list);
 			end;
 			if(cont=0) then
-				imprimirLinea('No','ingredients','found' ,'in' ,'stock')
+				imprimirLinea('No','ingredients','found' ,'in' ,'stock','','')
 			else
-				imprimirLinea('Number','of','ingredients','removed:',IntToStr(cont));
+				imprimirLinea('Number','of','ingredients','removed:',IntToStr(cont),'','');
 		end;		
 	end;
 	
@@ -194,7 +281,7 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 		exist:boolean; //Existen ingredientes con allergens
 	begin
 	if isEmptyListI(Lista)then
-			imprimirLinea('No','stock','available','','')
+			imprimirLinea('No','stock','available','','','','')
 	else begin
 		p:=firstI(Lista);
 		exist:=false;
@@ -204,7 +291,7 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 					i:=getItemI(p,Lista);
 					if (i.allergens.gluten) OR (i.allergens.milk) then begin
 						if NOT exist then begin
-							imprimirLinea('Ingredients','with','allergens:','','');
+							imprimirLinea('Ingredients','with','allergens:','','','','');
 							exist:=true;
 						end;
 						imprimirItem(i);
@@ -212,14 +299,14 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 					end;	
 				end;
 				if NOT exist then
-					imprimirLinea('Current','stock','completely','allergen-free','');
+					imprimirLinea('Current','stock','completely','allergen-free','','','');
 				end
 				else begin																		(*Gluten & NOT Milk*)
 					while p <> NULLI do begin
 						i:=getItemI(p,Lista);
 						if i.allergens.gluten then begin
 							if NOT exist then begin
-								imprimirLinea('Ingredients','with','gluten:','','');
+								imprimirLinea('Ingredients','with','gluten:','','','','');
 								exist:=true;
 							end;
 							writeln('* Ingredient ',i.nIngredient,': ',i.quantity);
@@ -228,7 +315,7 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 	
 					end;
 					if NOT exist then
-						imprimirLinea('Current','stock','completely','allergen-free','');
+						imprimirLinea('Current','stock','completely','allergen-free','','','');
 				end
 			else									
 				if milk then begin																		(*NOT Gluten & Milk*)
@@ -236,7 +323,7 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 						i:=getItemI(p,Lista);
 						if i.allergens.milk then begin
 							if NOT exist then begin
-								imprimirLinea('Ingredients','with','milk:','','');
+								imprimirLinea('Ingredients','with','milk:','','','','');
 								exist:=true;
 							end;
 							writeln('* Ingredient ',i.nIngredient,': ',i.quantity);
@@ -244,10 +331,10 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 						p:=nextI(p,lista);
 					end;
 					if NOT exist then
-						imprimirLinea('Current','stock','completely','allergen-free','');
+						imprimirLinea('Current','stock','completely','allergen-free','','','');
 				end
 			else begin
-				imprimirError('ERROR','Showing allergens:','allergen not determined');		(*NOT Gluten & NOT Milk*)
+				imprimirError('ERROR','Showing allergens:','allergen not determined','','');		(*NOT Gluten & NOT Milk*)
 			end;
 		end;
 	end;
@@ -265,18 +352,18 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 	begin
 		gluten :=0; milk:=0; total:=0; pgluten := 0; pmilk := 0;
 		if((Quantity<=0)AND(withQuantity))
-			then imprimirError('ERROR in Stock:','invalid','quantity')
+			then imprimirError('ERROR in Stock:','invalid','quantity','','')
 		else begin
 			if (isEmptyListI(lista))
 			then
-				imprimirLinea('No','stock','available',' ',' ')
+				imprimirLinea('No','stock','available',' ',' ','','')
 			else begin
 				q:=lastI(lista);
 				if(withQuantity)
 					then
-						imprimirLinea('Stock(<',IntToStr(Quantity),'):',' ',' ')
+						imprimirLinea('Stock(<',IntToStr(Quantity),'):',' ',' ','','')
 					else
-						imprimirLinea('Stock',':',' ',' ',' ');
+						imprimirLinea('Stock',':',' ',' ',' ','','');
 				while(q<>NULLI) do begin
 					item:=getItemI(q,lista);
 					if((item.quantity<Quantity)AND(withQuantity))
@@ -301,13 +388,13 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 						q:=previousI(q,lista);
 					end;		
 			if(withQuantity)AND(NOT(printed))
-				then imprimirLinea('No','ingredients','below','the','threshold');
+				then imprimirLinea('No','ingredients','below','the','threshold','','');
 	
 			if(printed)
 				then begin
 					if(withQuantity)
-						then imprimirLinea('Number of ingredients','in stock (<',IntToStr(Quantity),'):',IntToStr(total))
-						else imprimirLinea('Number of ingredients','in','stock',':',IntToStr(total));
+						then imprimirLinea('Number of ingredients','in stock (<',IntToStr(Quantity),'):',IntToStr(total),'','')
+						else imprimirLinea('Number of ingredients','in','stock',':',IntToStr(total),'','');
 					pgluten:=(gluten/total)*100;
 					pmilk:=(milk/total)*100;
 					writeln('      ',pgluten:0:1,'% contains gluten');
@@ -325,22 +412,23 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 	begin
 		Str(precio,sPrecio);
 		if(precio<=0)
-			then imprimirError('ERROR Adding new dessert:','Invalid','Price')
+			then imprimirError('ERROR Adding new dessert:','Invalid','Price','','')
 			else begin
 				if(findItemD(nPostre,lista)<>NULL)
-					then imprimirError('ERROR Adding new dessert',nPostre,'already exists')
+					then imprimirError('ERROR Adding new dessert',nPostre,'already exists','','')
 					else begin
 						item.nDessert:=nPostre;
 						item.price:=precio;
 						createEmptyListI(recipe);
 						item.recipe:=recipe;
 						if NOT(insertItemD(item,lista))
-							then imprimirLinea('WARNING: Out of memory','for','adding', 'dessert',nPostre)
+							then imprimirLinea('WARNING: Out of memory','for','adding', 'dessert',nPostre,'','')
 						else
-							imprimirLinea('Adding new dessert to', 'menu: ', nPostre, sPrecio, ' euros');
+							imprimirLinea('Adding new dessert to', 'menu: ', nPostre, sPrecio, ' euros','','');
 					end;
 			end;	
 	end;
+
 
 procedure addIngredient(nPostre:tnDessert; nIngrediente:tnIngredient; cant:tQuantity;var listaD:tListD; listaI:tListI );
 	var
@@ -352,18 +440,18 @@ procedure addIngredient(nPostre:tnDessert; nIngrediente:tnIngredient; cant:tQuan
 		Str(cant, sCant);
 		p:=findItemD(nPostre,listaD);
 		if(p=NULLD)
-			then imprimirError('ERROR Adding Ingredient do dessert',nPostre,': dessert does not exist')
+			then imprimirError('ERROR Adding Ingredient do dessert',nPostre,': dessert does not exist','','')
 			else
 				if(findItemI(nIngrediente,getItemD(p, listaD).recipe)<>NULLI)
 					then imprimirError('ERROR Adding Ingredient to dessert',nPostre ,': ingredient ', nIngrediente,'already exists')
 				else 
 					if(cant<=0)
-							then imprimirError('ERROR Adding Ingredient to dessert', nPostre ,': Invalid quantity')
+							then imprimirError('ERROR Adding Ingredient to dessert', nPostre ,': Invalid quantity','','')
 							else begin
 								item:=getItemI(findItemI(nIngrediente,listaI),listaI);
 								itemD:=getItemD(p,listaD);
 								if NOT(insertItemI(item,NULLI,itemD.recipe))
-									then imprimirLinea('WARNING: Out of memory','for','adding', 'dessert',nPostre)	
+									then imprimirLinea('WARNING: Out of memory','for','adding', 'dessert',nPostre,'','')	
 								else begin
 									imprimirLinea('Adding new ingredient to dessert',nPostre ,': ', nIngrediente, sCant, boolToString(item.allergens.gluten), boolToString(item.allergens.milk));
 									updateItemD(listaD,p,itemD);
@@ -371,19 +459,22 @@ procedure addIngredient(nPostre:tnDessert; nIngrediente:tnIngredient; cant:tQuan
 							end;
 	end;
 
+
 procedure TakeOff(nPostre:tnDessert; var listaD:tListD );
 	var 	
 		item:titemD;
+		p:tPosD;
 	begin
-		if findItemD(nPostre,listaD) = NULLD
-			then imprimirError('ERROR Taking off dessert ',nPostre,': dessert does not exist ')
+		p:=findItemD(nPostre,listaD);
+		if p = NULLD
+			then imprimirError('ERROR Taking off dessert ',nPostre,': dessert does not exist ','','')
 		else begin
 			item:=getItemD(findItemD(nPostre,listaD),listaD);
-			while NOT isEmptyListI(item.recipe) then
+			while NOT isEmptyListI(item.recipe) do
 				deleteAtPositionI(firstI(item.recipe),item.recipe);
-			updateItemD(listaD,item);
+			updateItemD(listaD,p,item);
 			deleteAtPositionD(findItemD(nPostre,listaD),listaD);
-			imprimirLinea('Removing Dessert', nPostre,'from the menu');
+			imprimirLinea('Removing',' Dessert', nPostre,'from',' the menu','','');
 		end;
 	end;
 
@@ -392,47 +483,55 @@ procedure Visualize(listaD:tListD);
 		p:tPosD;	
 	begin
 		if isEmptyListD(listaD)
-			then imprimirLinea('Menu','not','available','','')
+			then imprimirLinea('Menu','not','available','','','','')
 		else begin
-			imprimirLinea('Menu',' ****','','','');
+			p:=firstD(listaD);
+			imprimirLinea('Menu',' ****','','','','','');
 			while p <> NULLD do
-				imprimirPostre(getItemD(p,listaD),listaD);
+				imprimirPostre(getItemD(p,listaD));
 				p:=nextD(p,listaD);
 		end;
 	end;
 
-procedure Order(listaD:tListD);
-	var
 
-	begin
-	end;
 
-	
-
-function SaveParameter(line:String;var i:integer):String;
+procedure Order(nDessert:tnDessert;var listaD:tListD;var listaI:tListI);
 var
-
-	parameter:string[20]='';
-	j:integer = 1;
-	check:boolean = true;
-
+	pos:tPosD;
+	itemD:tItemD;
+	notAvaliable,notRemoved:boolean;
+	posI:tPosI;
+	ingredienteStock:tItemI;
+	neededQuantity:tQuantity;
 begin
-	while ((check = true) AND (i<=length(line)) AND (line[i]<>'#')) do begin
-		
-		 if (line[i]<>' ')
-		 then begin
-			Insert(line[i],parameter,j);
-			j:=j+1;
-		 end; 
-		 if ((line[i+1]=' ')AND(parameter<>''))
-		 then
-			check:=false;
-		
-		i:=i+1;
-
+	pos:=findItemD(nDessert,listaD);
+	if(pos=NULLD) then
+		imprimirError('Error Order Not attended. Unknown dessert',nDessert,'','','')
+	else begin
+		itemD:=getItemD(pos,listaD);
+		notAvaliable:=imprimirReceta(itemD,listaI);
+		if(notAvaliable) then begin
+			writeln('**** Order not attended. Not enough Ingredients');
+			writeln('**** Removing dessert',nDessert,'from the menu');
+			deleteAtPositionD(pos,listaD);
+		end
+		else begin
+			writeln('**** Order attended. Preparing dessert',nDessert);
+			posI:=firstI(itemD.recipe);
+			while(posI<>NULLI) do begin
+				neededQuantity:=getItemI(posI,itemD.recipe).quantity;
+				ingredienteStock:=getItemI(findItemI(getItemI(posI,itemD.recipe).nIngredient,listaI),listaI);
+				ingredienteStock.quantity:= ingredienteStock.quantity-neededQuantity;
+				updateItemI(listaI,posI,ingredienteStock);
+				posI:=NextI(posI,listaI);
+			end;
+			notRemoved:= ActualizarStockyMenu(listaD,listaI);
+			if(notRemoved) then
+				writeln('**** Stock updated. No ingredients removed.')
+		end;
+	end;
 end;
-	SaveParameter:=trim(parameter);
-end; 
+
 
 procedure readTasks(taskFile:string);
 var 
@@ -466,7 +565,57 @@ begin
         enqueue(q,d);
         i:=2;
     end;
+    
+    while(NOT(isEmptyQueue(q))) do begin
+		d:=front(q);
+		writeln('*******************************************');
+ 		writeln('TASK ', d.code,': ',d.parameter1,' ',d.parameter2,' ',d.parameter3,' ',d.parameter4);
+		writeln('*******************************************');
+		case d.code of
+			'N', 'n': begin 
+					  
+					  end;	
+			'M', 'm': begin 
+					  
+					  end;
+			'R', 'r': begin
+		
+					  end;
+			'A', 'a': begin 
+
+					  end;
+			'S', 's': begin 
+
+					  end;
+			'D', 'd': begin 
+					  
+					  end;
+			'I', 'i': begin
+		
+					  end;
+			'T', 't': begin 
+
+					  end;
+			'V', 'v': begin 
+
+					  end;
+			'O', 'o': begin 
+
+					  end;
+		end;
+	end;
+
+
+
 end;
 
-begin
-end.
+	
+BEGIN
+	
+	if (paramCount>0) then
+		readTasks(ParamStr(1))
+	else
+		readTasks('New.txt');
+	
+
+END.

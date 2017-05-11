@@ -12,7 +12,7 @@ unit DessertList;
 	uses IngredientList,sysutils;
 
 	const
-		MAX=100;
+		MAX=20;
 		NULLD=0;
 			
 	type
