@@ -131,7 +131,8 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 					else
 						posD:=nextD(posD,listaD);
 				end;
-				writeln('**** No more desserts affected');
+				if(printed=false)then
+					writeln('**** No more desserts affected');
 				deleteAtPositionI(posI,Stock);
 				posI:=firstI(Stock);
 			end 
@@ -141,18 +142,12 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 	end;
 	
 	procedure DeleteList(var L:tListI; var D:tListD);
-	var
-		itemD:tItemD;
+
 	begin
 		while NOT isEmptyListI(L) do
 			deleteAtPositionI(lastI(L),L);
-		while NOT isEmptyListD(D) do begin
-			itemD:=getItemD(LastD(D),D);
-				while NOT isEmptyListI(itemD.recipe) do
-					deleteAtPositionI(lastI(L),L);
-			
-		end;
-			
+		while NOT isEmptyListD(D) do 
+			deleteAtPositionD(LastD(d),d);
 	end;
 	function GOM(gluten:tGluten;milk:tMilk):string;
 	begin
@@ -244,7 +239,7 @@ end;
 				end
 				else if(item.quantity>0) then begin	
 					updateItemI(list,pos,item);
-					imprimirLinea('New','quantity for ingredient',nIngredient,':',IntToStr(quantity),'',''); (*El ingrediente es modificado normal*)
+					imprimirLinea('New','quantity for ingredient',nIngredient,':',IntToStr(item.quantity),'',''); (*El ingrediente es modificado normal*)
 				end
 				else
 					imprimirError('ERROR Modifying:','not enough','quantity','','');(*El ingrediente no tiene suficiente cantidad para ser modificado*)
@@ -285,45 +280,15 @@ end;
 	end;
 	
 	procedure Allergens(gluten:boolean;milk:boolean;Lista:tListI);
-{
+
 	(*Entradas: gluten, milk, lista.
 	Objetivo: Imprimir por pantalla el los ingredientes que contengan los alergenos especificados
 	PostCD: Que la lista este inicializada
 	*)
-	var
-		
-	begin
-	
-		if(NOT(gluten OR milk))	then
-			imprimirError('ERROR','Showing allergens:','allergen not determined','','')
-		else													(*Gluten & Milk*)
-				while p <> NULLI do begin
-						if	(gluten AND milk) then begin
-							if(exist = false)
-								imprimirLinea('Ingredients','with','allergens:','','','','');
-							
-							imprimirItem(i);
-						end
-						else if (gluten)AND(gluten=i.allergens.gluten) then begin
-								if(exist=false)
-									imprimirLinea('Ingredients','with','gluten:','','','','');
-								writeln('* Ingredient ',i.nIngredient,': ',i.quantity);
-						end
 
-								imprimirLinea('Ingredients','with','milk:','','','','');
-								exist:=true;
-							end;
-							writeln('* Ingredient ',i.nIngredient,': ',i.quantity);
-						end;	
-						p:=nextI(p,lista);
-					end;
-					
-				end
-			else begin
-						(*NOT Gluten & NOT Milk*)
 
 		
-}
+
 	var
 		posI:tPosI; //posicion que recorre la lista
 		item:tItemI;
@@ -402,15 +367,19 @@ end;
 								then milk:=milk+1;
 						end
 						else begin
-							item:=getItemI(q,lista);
-							imprimirItem(item);
-							total:=total+1;
-							if(item.allergens.gluten)
-								then gluten:=gluten+1;               (*Caso sin cantidad minima*)
-							if(item.allergens.milk)
-								then milk:=milk+1;
+						 if(withQuantity=false) 
+							then begin
+								item:=getItemI(q,lista);
+								imprimirItem(item);
+								total:=total+1;
+								if(item.allergens.gluten)
+									then gluten:=gluten+1;               (*Caso sin cantidad minima*)
+								if(item.allergens.milk)
+									then milk:=milk+1;
 							end;
+						end;
 						q:=previousI(q,lista);
+						end;
 					end;		
 			if(withQuantity)AND(NOT(printed))
 				then imprimirLinea('No','ingredients','below','the','threshold','','');
@@ -427,7 +396,7 @@ end;
 				end;
 			end;
 		end;
-	end;
+
 	
 	procedure newDesert(nPostre:tnDessert; sprecio:string ;var lista:tListD);
 	var
@@ -673,7 +642,7 @@ begin
 					  end;
 		end;
 	end;
-
+		DeleteList(Despensa,DessertList);
 end;
 
 var

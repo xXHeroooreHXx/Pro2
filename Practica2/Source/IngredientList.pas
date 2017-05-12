@@ -46,7 +46,7 @@ unit IngredientList;
 	function insertItemI(i:tItemI; p:tPosI; var L:tListI):boolean;
 	procedure deleteAtPositionI (p:tPosI; VAR L:tListI);
 	function getItemI (p:tPosI; L:tListI):tItemI;
-	procedure updateItemI (L:tListI; p:tPosI; i:tItemI);
+	procedure updateItemI (var L:tListI; var p:tPosI; i:tItemI);
 	function findItemI (ing:tnIngredient; L:tListI):tPosI;
 
 
@@ -178,7 +178,7 @@ unit IngredientList;
 		getItemI:=p^.item;
 	end;
 
-	procedure updateItemI(L:tListI;p:tPosI;i:tItemI);
+	procedure updateItemI(var L:tListI;var p:tPosI;i:tItemI);
 	(*Modifica el contenido del elemento situado en la posición indicada.
 	PreCD: La posición indicada es una posición válida en la lista.
 	PostCD: El orden de los elementos de la lista no se ve modificado.*)

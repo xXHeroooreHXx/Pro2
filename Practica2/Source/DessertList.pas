@@ -132,6 +132,8 @@ unit DessertList;
 	var
 	q:tPosD;
 	begin
+		while not(isEmptyListI(L.data[p].recipe)) do
+			DeleteAtPositionI(lastI(L.data[p].recipe),L.data[p].recipe);
 		if(L.endList <> 1) then begin
 			for q:=p to (L.endList -1) do
 				L.data[q]:=L.data[q+1];

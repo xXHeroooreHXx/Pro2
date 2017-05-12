@@ -1,0 +1,489 @@
+#####
+NEW
+#####
+*******************************************
+TASK N: flour 20000 true false
+*******************************************
+**** Adding new ingredient: flour 20000 true true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient flour: 20000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 1
+      100.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK N: sugar 30000 false false
+*******************************************
+**** Adding new ingredient: sugar 30000 false true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient sugar: 30000
+      Contains milk
+* Ingredient flour: 20000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 2
+      50.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK N: marmelade 20000 true false
+*******************************************
+**** Adding new ingredient: marmelade 20000 true true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient marmelade: 20000
+      Contains gluten
+      Contains milk
+* Ingredient sugar: 30000
+      Contains milk
+* Ingredient flour: 20000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 3
+      66.7% contains gluten
+      100.0% contains milk
+*******************************************
+TASK N: sugar 10000 false false
+*******************************************
+**** Adding new ingredient: sugar 10000 false true
+++++ ERROR Adding New: Ingredient sugar already exists  
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient marmelade: 20000
+      Contains gluten
+      Contains milk
+* Ingredient sugar: 30000
+      Contains milk
+* Ingredient flour: 20000
+      Contains gluten
+      Contains milk
+*******************************************
+TASK S: 30000   
+*******************************************
+**** Stock(< 30000 ):    
+* Ingredient marmelade: 20000
+      Contains gluten
+      Contains milk
+* Ingredient flour: 20000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock (< 30000 ): 2
+      100.0% contains gluten
+      100.0% contains milk
+#####
+MODIFY
+#####
+*******************************************
+TASK N: flour 200 true false
+*******************************************
+**** Adding new ingredient: flour 200 true true
+*******************************************
+TASK N: sugar 300 false false
+*******************************************
+**** Adding new ingredient: sugar 300 false true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient sugar: 300
+      Contains milk
+* Ingredient flour: 200
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 2
+      50.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK M: flour 200  
+*******************************************
+**** New quantity for ingredient flour : 400
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient sugar: 300
+      Contains milk
+* Ingredient flour: 400
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 2
+      50.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK M: flour 0  
+*******************************************
+++++ ERROR Modifying: invalid quantity  
+#####
+REMOVE
+#####
+*******************************************
+TASK N: flour 20000 true false
+*******************************************
+**** Adding new ingredient: flour 20000 true true
+*******************************************
+TASK N: sugar 30000 false false
+*******************************************
+**** Adding new ingredient: sugar 30000 false true
+*******************************************
+TASK N: marmelade 20000 true false
+*******************************************
+**** Adding new ingredient: marmelade 20000 true true
+*******************************************
+TASK N: creme 100 false true
+*******************************************
+**** Adding new ingredient: creme 100 false true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient creme: 100
+      Contains milk
+* Ingredient marmelade: 20000
+      Contains gluten
+      Contains milk
+* Ingredient sugar: 30000
+      Contains milk
+* Ingredient flour: 20000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 4
+      50.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK R: 20001   
+*******************************************
+**** Removing ingredients with quantity inferior to 20001
+* Ingredient flour: 20000
+* Ingredient marmelade: 20000
+* Ingredient creme: 100
+**** Number of ingredients removed: 3
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient sugar: 30000
+      Contains milk
+**** Number of ingredients in stock : 1
+      0.0% contains gluten
+      100.0% contains milk
+#####
+ALLERGENS
+#####
+*******************************************
+TASK N: flour 20000 true false
+*******************************************
+**** Adding new ingredient: flour 20000 true true
+*******************************************
+TASK N: sugar 30000 false false
+*******************************************
+**** Adding new ingredient: sugar 30000 false true
+*******************************************
+TASK N: marmelade 20000 true false
+*******************************************
+**** Adding new ingredient: marmelade 20000 true true
+*******************************************
+TASK N: creme 100 false true
+*******************************************
+**** Adding new ingredient: creme 100 false true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient creme: 100
+      Contains milk
+* Ingredient marmelade: 20000
+      Contains gluten
+      Contains milk
+* Ingredient sugar: 30000
+      Contains milk
+* Ingredient flour: 20000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 4
+      50.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK A: true false  
+*******************************************
+**** Ingredients with gluten : 
+* Ingredient flour: 20000
+*******************************************
+TASK A: false true  
+*******************************************
+**** Ingredients with milk : 
+* Ingredient sugar: 30000
+* Ingredient creme: 100
+*******************************************
+TASK A: false false  
+*******************************************
+++++ ERROR Showing allergens: allergen not determined  
+**** Current stock completely allergen-free 
+#####
+DESSERT
+#####
+*******************************************
+TASK D: YogurtCake 4.5  
+*******************************************
+**** Adding new dessert to menu:  YogurtCake 4.5  euros
+*******************************************
+TASK D: ChocoCake 5.0  
+*******************************************
+**** Adding new dessert to menu:  ChocoCake 5.0  euros
+*******************************************
+TASK D: IceCream 5.5  
+*******************************************
+**** Adding new dessert to menu:  IceCream 5.5  euros
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.00.
+Recipe not included.
+IceCream: 5.50.
+Recipe not included.
+YogurtCake: 4.50.
+Recipe not included.
+#####
+ADDING INGREDIENTS
+#####
+*******************************************
+TASK N: flour 20000 true false
+*******************************************
+**** Adding new ingredient: flour 20000 true true
+*******************************************
+TASK N: yogurt 3 false true
+*******************************************
+**** Adding new ingredient: yogurt 3 false true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient yogurt: 3
+      Contains milk
+* Ingredient flour: 20000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 2
+      50.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK D: YogurtCake 4.5  
+*******************************************
+**** Adding new dessert to menu:  YogurtCake 4.5  euros
+*******************************************
+TASK I: YogurtCake yogurt 1 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  yogurt 1
+*******************************************
+TASK I: YogurtCake flour 300 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  flour 300
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+YogurtCake: 4.50.
+Contains: yogurt flour 
+
+#####
+TAKEOFF
+#####
+*******************************************
+TASK D: YogurtCake 4.5  
+*******************************************
+**** Adding new dessert to menu:  YogurtCake 4.5  euros
+*******************************************
+TASK D: ChocoCake 5.0  
+*******************************************
+**** Adding new dessert to menu:  ChocoCake 5.0  euros
+*******************************************
+TASK D: IceCream 5.5  
+*******************************************
+**** Adding new dessert to menu:  IceCream 5.5  euros
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.00.
+Recipe not included.
+IceCream: 5.50.
+Recipe not included.
+YogurtCake: 4.50.
+Recipe not included.
+*******************************************
+TASK T: IceCream   
+*******************************************
+**** Removing  Dessert IceCream from  the menu
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.00.
+Recipe not included.
+YogurtCake: 4.50.
+Recipe not included.
+#####
+ORDER
+#####
+*******************************************
+TASK N: flour 2000 true false
+*******************************************
+**** Adding new ingredient: flour 2000 true true
+*******************************************
+TASK N: sugar 3000 false false
+*******************************************
+**** Adding new ingredient: sugar 3000 false true
+*******************************************
+TASK N: cacao 100 true false
+*******************************************
+**** Adding new ingredient: cacao 100 true true
+*******************************************
+TASK N: eggs 9 false false
+*******************************************
+**** Adding new ingredient: eggs 9 false true
+*******************************************
+TASK N: yogurt 3 false true
+*******************************************
+**** Adding new ingredient: yogurt 3 false true
+*******************************************
+TASK N: oliveoil 200 false false
+*******************************************
+**** Adding new ingredient: oliveoil 200 false true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient oliveoil: 200
+      Contains milk
+* Ingredient yogurt: 3
+      Contains milk
+* Ingredient eggs: 9
+      Contains milk
+* Ingredient cacao: 100
+      Contains gluten
+      Contains milk
+* Ingredient sugar: 3000
+      Contains milk
+* Ingredient flour: 2000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 6
+      33.3% contains gluten
+      100.0% contains milk
+*******************************************
+TASK D: YogurtCake 4.5  
+*******************************************
+**** Adding new dessert to menu:  YogurtCake 4.5  euros
+*******************************************
+TASK I: YogurtCake yogurt 1 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  yogurt 1
+*******************************************
+TASK I: YogurtCake eggs 3 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  eggs 3
+*******************************************
+TASK I: YogurtCake flour 300 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  flour 300
+*******************************************
+TASK I: YogurtCake sugar 200 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  sugar 200
+*******************************************
+TASK I: YogurtCake oliveoil 70 
+*******************************************
+**** Adding new ingredient to dessert YogurtCake :  oliveoil 70
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+YogurtCake: 4.50.
+Contains: yogurt eggs flour sugar oliveoil 
+
+*******************************************
+TASK D: ChocoCake 5  
+*******************************************
+**** Adding new dessert to menu:  ChocoCake 5  euros
+*******************************************
+TASK I: ChocoCake yogurt 1 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  yogurt 1
+*******************************************
+TASK I: ChocoCake eggs 3 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  eggs 3
+*******************************************
+TASK I: ChocoCake flour 200 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  flour 200
+*******************************************
+TASK I: ChocoCake sugar 200 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  sugar 200
+*******************************************
+TASK I: ChocoCake oliveoil 70 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  oliveoil 70
+*******************************************
+TASK I: ChocoCake cacao 100 
+*******************************************
+**** Adding new ingredient to dessert ChocoCake :  cacao 100
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.00.
+Contains: yogurt eggs flour sugar oliveoil cacao 
+
+YogurtCake: 4.50.
+Contains: yogurt eggs flour sugar oliveoil 
+
+*******************************************
+TASK O: IceCrChoco   
+*******************************************
+++++ Error Order Not attended. Unknown dessert IceCrChoco   
+*******************************************
+TASK O: YogurtCake   
+*******************************************
+**** DessertYogurtCake
+* Ingredientyogurt 3(available: 3)
+* Ingredienteggs 9(available: 9)
+* Ingredientflour 2000(available: 2000)
+* Ingredientsugar 3000(available: 3000)
+* Ingredientoliveoil 200(available: 200)
+**** Order attended. Preparing dessert YogurtCake
+**** Removing ingredient flour from stock
+**** Removing desserts that contains flour
+*Removing ChocoCake
+*Removing YogurtCake
+**** No more desserts affected
+**** Removing ingredient sugar from stock
+**** Removing ingredient eggs from stock
+**** Removing ingredient yogurt from stock
+**** Removing ingredient oliveoil from stock
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient cacao: 100
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 1
+      100.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK V:    
+*******************************************
+**** Menu not available  
+
