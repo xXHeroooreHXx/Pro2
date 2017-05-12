@@ -125,10 +125,32 @@ TASK N: oliveoil 200 false false
 * Ingredientflour 2000(available: 2000)
 * Ingredientsugar 3000(available: 3000)
 * Ingredientoliveoil 200(available: 200)
-**** Order attended. Preparing dessertYogurtCake
-**** Removing ingredientflourfrom stock
+**** Order attended. Preparing dessert YogurtCake
+**** Removing ingredient flour from stock
 **** Removing desserts that contains flour
 *Removing ChocoCake
 *Removing YogurtCake
-*Removing YogurtCake
+**** No more desserts affected
+**** Removing ingredient sugar from stock
+**** No more desserts affected
+**** Removing ingredient eggs from stock
+**** No more desserts affected
+**** Removing ingredient yogurt from stock
+**** No more desserts affected
+**** Removing ingredient oliveoil from stock
+**** No more desserts affected
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient cacao: 100
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 1
+      100.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK V:    
+*******************************************
+**** Menu not available  
 

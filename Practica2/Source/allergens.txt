@@ -1,0 +1,8 @@
+N flour         20000        true    false
+N sugar	        30000        false   false
+N marmelade     20000        true    false
+N creme         100          false   true
+S 
+A true          false			                  #shows two ingredients (flour,marmelade)
+A false         true 			                  #show 1 ingredient (cream)
+A false         false		                      #error: no allergen determined

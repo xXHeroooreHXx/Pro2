@@ -132,8 +132,10 @@ unit DessertList;
 	var
 	q:tPosD;
 	begin
-		for q:=p to (L.endList -1) do
-			L.data[q]:=L.data[q+1];
+		if(L.endList <> 1) then begin
+			for q:=p to (L.endList -1) do
+				L.data[q]:=L.data[q+1];
+			end;
 		L.endList:=L.endList-1;
 	end;
 	

@@ -105,38 +105,38 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 		posD:tPosD;
 		itemI:tItemI;
 		itemD:tItemD;
-		printed:boolean = true;
+		printed:boolean;
+		recipe:tListI;
 	begin
 		posI:=firstI(stock);
 		ActualizarStockyMenu:=true;
-		while(posI<>NULLI) do begin
+		while (posI<>NULLI) do begin
 			itemI:=getItemI(posI,stock);
 			if(itemI.quantity = 0)then begin
 				ActualizarStockyMenu:=false;
 				writeln('**** Removing ingredient ',itemI.nIngredient,' from stock');
-				deleteAtPositionI(posI,stock);
-				posI:=firstI(stock);
 				posD:=firstD(listaD);
-				while(posD<>NULLD) do begin
-					itemD:=getItemD(posD,listaD);
-					if(findItemI(itemI.nIngredient,itemD.recipe)<>NULLI) then begin
-						if(printed) then 
+				printed:=true;
+				while (posD<>NULLD)AND(NOT(isEmptyListD(listaD))) do begin
+					ItemD:=getItemD(posD,listaD);
+					recipe:=ItemD.recipe;
+					if(findItemI(itemI.nIngredient,recipe)<>NULLI) then begin
+						if(printed) then
 							writeln('**** Removing desserts that contains ',itemI.nIngredient);
 						printed:=false;
 						writeln('*Removing ',itemD.nDessert);
 						deleteAtPositionD(posD,listaD);
 						posD:=firstD(listaD);
-					end;
-					
-					if(nextD(posD,listaD)<>NULLD)then
-						posD:=nextD(posd,listaD);
-					
+					end
+					else
+						posD:=nextD(posD,listaD);
 				end;
-				if(printed)	then
-					writeln('**** No more desserts affected')
-			end;
-			posI:=nextI(posI,stock);
-			printed:=true;
+				writeln('**** No more desserts affected');
+				deleteAtPositionI(posI,Stock);
+				posI:=firstI(Stock);
+			end 
+			else
+				posI:=nextI(posI,Stock)
 		end;
 	end;
 	
@@ -153,6 +153,16 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 			
 		end;
 			
+	end;
+	function GOM(gluten:tGluten;milk:tMilk):string;
+	begin
+		if(gluten) then
+			GOM:='gluten'
+		else 
+			if(milk) then
+				GOM:='milk'
+			else 
+				GOM:= 'allergens';
 	end;
 	
 	function SaveParameter(line:String;var i:integer):String;
@@ -275,58 +285,31 @@ end;
 	end;
 	
 	procedure Allergens(gluten:boolean;milk:boolean;Lista:tListI);
+{
 	(*Entradas: gluten, milk, lista.
 	Objetivo: Imprimir por pantalla el los ingredientes que contengan los alergenos especificados
 	PostCD: Que la lista este inicializada
 	*)
 	var
-		p:tPosI; //posicion que recorre la lista
-		i:tItemI; //item donde se vuelcan los atos
-		exist:boolean; //Existen ingredientes con allergens
+		
 	begin
-	if isEmptyListI(Lista)then
-			imprimirLinea('No','stock','available','','','','')
-	else begin
-		p:=firstI(Lista);
-		exist:=false;
-		if gluten then  
-			if milk then begin																		(*Gluten & Milk*)
-				while p <> NULLI do begin
-					i:=getItemI(p,Lista);
-					if (i.allergens.gluten) OR (i.allergens.milk) then begin
-						if NOT exist then begin
-							imprimirLinea('Ingredients','with','allergens:','','','','');
-							exist:=true;
-						end;
-						imprimirItem(i);
-						p:=nextI(p,lista);
-					end;	
-				end;
-				if NOT exist then
-					imprimirLinea('Current','stock','completely','allergen-free','','','');
-				end
-				else begin																		(*Gluten & NOT Milk*)
-					while p <> NULLI do begin
-						i:=getItemI(p,Lista);
-						if i.allergens.gluten then begin
-							if NOT exist then begin
-								imprimirLinea('Ingredients','with','gluten:','','','','');
-								exist:=true;
-							end;
-							writeln('* Ingredient ',i.nIngredient,': ',i.quantity);
-						end;
-						p:=nextI(p,lista);
 	
-					end;
-					if NOT exist then
-						imprimirLinea('Current','stock','completely','allergen-free','','','');
-				end
-			else									
-				if milk then begin																		(*NOT Gluten & Milk*)
-					while p <> NULLI do begin
-						i:=getItemI(p,Lista);
-						if i.allergens.milk then begin
-							if NOT exist then begin
+		if(NOT(gluten OR milk))	then
+			imprimirError('ERROR','Showing allergens:','allergen not determined','','')
+		else													(*Gluten & Milk*)
+				while p <> NULLI do begin
+						if	(gluten AND milk) then begin
+							if(exist = false)
+								imprimirLinea('Ingredients','with','allergens:','','','','');
+							
+							imprimirItem(i);
+						end
+						else if (gluten)AND(gluten=i.allergens.gluten) then begin
+								if(exist=false)
+									imprimirLinea('Ingredients','with','gluten:','','','','');
+								writeln('* Ingredient ',i.nIngredient,': ',i.quantity);
+						end
+
 								imprimirLinea('Ingredients','with','milk:','','','','');
 								exist:=true;
 							end;
@@ -334,14 +317,52 @@ end;
 						end;	
 						p:=nextI(p,lista);
 					end;
-					if NOT exist then
-						imprimirLinea('Current','stock','completely','allergen-free','','','');
+					
 				end
 			else begin
-				imprimirError('ERROR','Showing allergens:','allergen not determined','','');		(*NOT Gluten & NOT Milk*)
-			end;
-		end;
-	end;
+						(*NOT Gluten & NOT Milk*)
+
+		
+}
+	var
+		posI:tPosI; //posicion que recorre la lista
+		item:tItemI;
+		exist,alergeno,printed:boolean; //Existen ingredientes con allergens y el ingrediente coincide con el criterio de busqueda
+	begin
+		exist:=false;
+		if isEmptyListI(Lista)then
+			imprimirLinea('No','stock','available','','','','')
+		else begin
+			if(NOT(gluten OR milk))	then
+				imprimirError('ERROR','Showing allergens:','allergen not determined','','')
+			else begin
+				printed:=true;
+				posI:=firstI(lista);
+				while(posI<>NULLI) do begin
+					item:=getItemI(posI,lista);
+					if((item.allergens.milk = milk)AND(item.allergens.gluten = gluten)) then //se comprueba que los tipos de alergenos buscados coinciden con el del ingrediente
+						alergeno:=true;
+					if(alergeno) 
+					then begin
+						if(printed) then begin							
+							imprimirLinea('Ingredients','with',GOM(gluten,milk),':','','','');   //La función GOM decide si debe imprimir milk, gluten o allergenos.
+							printed:=false;
+						end;
+						if((gluten)AND(milk)) then
+							imprimirItem(item)
+						else                                                               //Si lo que buscamos son los dos alergenos, se imprime como el stock
+							writeln('* Ingredient ',item.nIngredient,': ',item.quantity); //si no normal
+					end;
+					exist:=exist OR alergeno; //guardamos en un booleano si ha existido alguno
+					alergeno:=false;
+					posI:=nextI(posI,lista); //y reiniciamos las variables del bucle.
+				end; 
+			end;							
+			if NOT exist then
+						imprimirLinea('Current','stock','completely','allergen-free','','','');		
+		end;		
+	end;	
+	
 	
 	procedure Stock(withQuantity:boolean;Quantity:integer;lista:tListI);
 	(*Entradas: withQuantity, Quantity, lista.
@@ -511,6 +532,7 @@ var
 	ingredienteStock,i:tItemI;
 begin
 	pos:=findItemD(nDessert,listaD);
+	
 	if(pos=NULLD) then
 		imprimirError('Error Order Not attended. Unknown dessert',nDessert,'','','')
 	else begin

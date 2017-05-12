@@ -1,0 +1,50 @@
+*******************************************
+TASK N: flour 20000 true false
+*******************************************
+**** Adding new ingredient: flour 20000 true true
+*******************************************
+TASK N: sugar 30000 false false
+*******************************************
+**** Adding new ingredient: sugar 30000 false true
+*******************************************
+TASK N: marmelade 20000 true false
+*******************************************
+**** Adding new ingredient: marmelade 20000 true true
+*******************************************
+TASK N: creme 100 false true
+*******************************************
+**** Adding new ingredient: creme 100 false true
+*******************************************
+TASK S:    
+*******************************************
+**** Stock :      
+* Ingredient creme: 100
+      Contains milk
+* Ingredient marmelade: 20000
+      Contains gluten
+      Contains milk
+* Ingredient sugar: 30000
+      Contains milk
+* Ingredient flour: 20000
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 4
+      50.0% contains gluten
+      100.0% contains milk
+*******************************************
+TASK A: true false  
+*******************************************
+**** Ingredients with gluten : 
+* Ingredient flour: 20000
+*******************************************
+TASK A: false true  
+*******************************************
+**** Ingredients with milk : 
+* Ingredient sugar: 30000
+* Ingredient creme: 100
+*******************************************
+TASK A: false false  
+*******************************************
+++++ ERROR Showing allergens: allergen not determined  
+**** Current stock completely allergen-free 
+
