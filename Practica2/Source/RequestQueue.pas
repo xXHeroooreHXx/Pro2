@@ -41,7 +41,8 @@ unit RequestQueue;
 	implementation
 	
 	procedure createEmptyQueue(var Queue:tQueue);
-	(*Crea una cola vacía.
+	(*Objetivo:Crea una cola vacía.
+	* Entrada:Cola
 	PostCD: La cola queda inicializada y vacía.*)
 	begin
 		Queue.ini:=NULLQ;
@@ -49,7 +50,9 @@ unit RequestQueue;
 	end;
 	
 	function isEmptyQueue(Queue:tQueue):Boolean;
-	(*Determina si la cola está vacía.*)
+	(*Objetivo:Determina si la cola está vacía.
+	* Entrada: Cola, 
+	* Salida: Cola con el nuevo elemento.*)
 	begin
 		 isEmptyQueue:=((Queue.ini=NULLQ)AND(Queue.fin=NULLQ));
 	end;
@@ -65,7 +68,9 @@ unit RequestQueue;
 	end;
 	
 	function enqueue(VAR Queue:tQueue; i:tItemQ):boolean;
-	(*Inserta un nuevo elemento (tItemQ) en la cola. Devuelve false si no hay memoria suficiente para realizar la operación.*)
+	(*Objetivo: Inserta un nuevo elemento (tItemQ) en la cola. Devuelve false si no hay memoria suficiente para realizar la operación
+	* Entrada: Cola, itemcola
+	* Salida: Cola con el nuevo elemento.*)
 	var newNode:tPosQ;
 	begin
 		createNode(i,newNode);
@@ -82,6 +87,7 @@ unit RequestQueue;
 
 	function front(Queue:tQueue):tItemQ;
 	(*Devuelve el contenido (tItemQ) del frente de la cola (i.e. el elemento más antiguo).
+	* Entrada: Cola
 	PreCD: la cola no está vacía.*)
 	begin
 		front:=Queue.ini^.item;
@@ -89,8 +95,9 @@ unit RequestQueue;
 	
 	procedure dequeue(VAR Queue:tQueue);
 	(*Elimina el elemento que está en el frente de la cola.
+	* Entrada: Cola
 	PreCD: la cola no está vacía.*)
-	var p:tPosQ;
+	var p:tPosQ;//posicion en la cola
 	begin
 		p:=Queue.ini;
 		Queue.ini:=p^.next;

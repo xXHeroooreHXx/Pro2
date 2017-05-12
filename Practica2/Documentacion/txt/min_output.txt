@@ -459,33 +459,42 @@ TASK N: oliveoil 200 false false
 TASK O: YogurtCake   
 *******************************************
 **** DessertYogurtCake
-* Ingredientyogurt 3(available: 3)
-* Ingredienteggs 9(available: 9)
-* Ingredientflour 2000(available: 2000)
-* Ingredientsugar 3000(available: 3000)
-* Ingredientoliveoil 200(available: 200)
+* Ingredientyogurt 1(available: 3)
+* Ingredienteggs 3(available: 9)
+* Ingredientflour 300(available: 2000)
+* Ingredientsugar 200(available: 3000)
+* Ingredientoliveoil 70(available: 200)
 **** Order attended. Preparing dessert YogurtCake
-**** Removing ingredient flour from stock
-**** Removing desserts that contains flour
-*Removing ChocoCake
-*Removing YogurtCake
-**** No more desserts affected
-**** Removing ingredient sugar from stock
-**** Removing ingredient eggs from stock
-**** Removing ingredient yogurt from stock
-**** Removing ingredient oliveoil from stock
+**** Stock updated. No ingredients removed.
 *******************************************
 TASK S:    
 *******************************************
 **** Stock :      
+* Ingredient oliveoil: 130
+      Contains milk
+* Ingredient yogurt: 2
+      Contains milk
+* Ingredient eggs: 6
+      Contains milk
 * Ingredient cacao: 100
       Contains gluten
       Contains milk
-**** Number of ingredients in stock : 1
-      100.0% contains gluten
+* Ingredient sugar: 2800
+      Contains milk
+* Ingredient flour: 1700
+      Contains gluten
+      Contains milk
+**** Number of ingredients in stock : 6
+      33.3% contains gluten
       100.0% contains milk
 *******************************************
 TASK V:    
 *******************************************
-**** Menu not available  
+**** Menu  ****   
+ChocoCake: 5.00.
+Contains: yogurt eggs flour sugar oliveoil cacao 
+
+YogurtCake: 4.50.
+Contains: yogurt eggs flour sugar oliveoil 
+
 

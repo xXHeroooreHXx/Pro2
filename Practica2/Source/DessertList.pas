@@ -96,7 +96,7 @@ unit DessertList;
 	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULLD).
 	PostCD: Las posiciones de los elementos de la lista a continuación del insertado dejan de ser válidas.*)
 	var
-		q,p:tPosD;	
+		q,p:tPosD;	//posiciones en la lista 
 	begin
 		if L.endlist = MAX then
 			insertItemD:=false
@@ -130,7 +130,7 @@ unit DessertList;
 	PreCD: La posición indicada es una posición válida en la lista.
 	PostCD: Tanto la posición del elemento eliminado como aquéllas de los elementos de la lista a continuación del mismo dejan de ser válidas.*)
 	var
-	q:tPosD;
+	q:tPosD; //posicion en la lista
 	begin
 		while not(isEmptyListI(L.data[p].recipe)) do
 			DeleteAtPositionI(lastI(L.data[p].recipe),L.data[p].recipe);
@@ -160,7 +160,7 @@ unit DessertList;
 	(*Devuelve la posición del primer elemento de la lista cuyo nombre de ingrediente se corresponda con el indicado (o NULLD si no existe tal elemento).
 	Deja de buscar si todavia no ha encontrado un elemento pero encuentra un elemento con una posición posterior al buscado*)
 	var
-		p:tPosD;
+		p:tPosD;//posicion en la lista
 	begin
 		findItemD:=NULLD;
 		p:=firstD(L);

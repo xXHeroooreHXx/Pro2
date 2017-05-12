@@ -77,7 +77,7 @@ unit IngredientList;
 	(*Devuelve la posición del último elemento de la lista.
 	PreCD: La lista no está vacía.*)
 	var
-		p:tPosI;
+		p:tPosI;//posicion en la lista
 	begin
 		p:=firstI(L);
 		while(p^.nextI <> NULLI) do
@@ -96,7 +96,7 @@ unit IngredientList;
 	(*Devuelve la posición en la lista del elemento anterior al de la posición indicada (o NULLI si la posición no tiene anterior).
 	PreCD: La posición indicada es una posición válida en la lista.*)
 	var
-		q:tPosI;
+		q:tPosI; //posicion en la lista
 	begin
 		if(p=l) then
 			previousI:=NULLI
@@ -124,7 +124,7 @@ unit IngredientList;
 	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULLI).
 	PostCD: Las posiciones de los elementos de la lista a continuación del insertado dejan de ser válidas.*)
 	var
-		newPos,q:tPosI;
+		newPos,q:tPosI; //dos posiciones distintas en la lista
 	
 	begin
 		createNode(i,newPos);
@@ -159,7 +159,7 @@ unit IngredientList;
 	PreCD: La posición indicada es una posición válida en la lista o bien una posición nula (NULLI).
 	PostCD: Las posiciones de los elementos de la lista a continuación del insertado dejan de ser válidas.*)
 	var
-		q:tPosI;
+		q:tPosI;//Posicion en la lista
 
 	begin
 		if p=L then
@@ -189,7 +189,7 @@ unit IngredientList;
 	function findItemI (ing:tnIngredient; L:tListI):tPosI;
 	(*Devuelve la posición del primer elemento de la lista cuyo nombre de ingrediente se corresponda con el indicado (o NULLI si no existe tal elemento).*)
 	var
-		p:tPosI;
+		p:tPosI; //posicion en la lista
 	begin
 		p:=firstI(L);
 		findItemI:=NULLI;
