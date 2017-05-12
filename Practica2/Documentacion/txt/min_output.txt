@@ -216,18 +216,20 @@ TASK S:
 TASK A: true false  
 *******************************************
 **** Ingredients with gluten : 
+* Ingredient marmelade: 20000
 * Ingredient flour: 20000
 *******************************************
 TASK A: false true  
 *******************************************
 **** Ingredients with milk : 
-* Ingredient sugar: 30000
 * Ingredient creme: 100
+* Ingredient marmelade: 20000
+* Ingredient sugar: 30000
+* Ingredient flour: 20000
 *******************************************
 TASK A: false false  
 *******************************************
 ++++ ERROR Showing allergens: allergen not determined  
-**** Current stock completely allergen-free 
 #####
 DESSERT
 #####

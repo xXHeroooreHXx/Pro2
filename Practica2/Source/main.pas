@@ -302,10 +302,11 @@ end;
 				imprimirError('ERROR','Showing allergens:','allergen not determined','','')
 			else begin
 				printed:=true;
-				posI:=firstI(lista);
+				alergeno:=false;
+				posI:=lastI(lista);
 				while(posI<>NULLI) do begin
 					item:=getItemI(posI,lista);
-					if((item.allergens.milk = milk)AND(item.allergens.gluten = gluten)) then //se comprueba que los tipos de alergenos buscados coinciden con el del ingrediente
+					if((milk)AND(item.allergens.milk = milk)OR(item.allergens.gluten = gluten)AND(gluten)) then //se comprueba que los tipos de alergenos buscados coinciden con el del ingrediente
 						alergeno:=true;
 					if(alergeno) 
 					then begin
@@ -320,11 +321,11 @@ end;
 					end;
 					exist:=exist OR alergeno; //guardamos en un booleano si ha existido alguno
 					alergeno:=false;
-					posI:=nextI(posI,lista); //y reiniciamos las variables del bucle.
+					posI:=previousI(posI,lista); //y reiniciamos las variables del bucle.
 				end; 
-			end;							
-			if NOT exist then
-						imprimirLinea('Current','stock','completely','allergen-free','','','');		
+				if NOT exist then
+						imprimirLinea('Current','stock','completely','allergen-free','','','');	
+			end;								
 		end;		
 	end;	
 	
