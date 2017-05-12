@@ -1,0 +1,137 @@
+*******************************************
+TASK D: YogurtCake 4.5  
+*******************************************
+**** Adding new dessert to menu:  YogurtCake 4.5  euros
+*******************************************
+TASK D: ChocoCake 5.0  
+*******************************************
+**** Adding new dessert to menu:  ChocoCake 5.0  euros
+*******************************************
+TASK D: IceCream 5.5  
+*******************************************
+**** Adding new dessert to menu:  IceCream 5.5  euros
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake:  5.0000000000000000E+000.
+Recipe not included.
+IceCream:  5.5000000000000000E+000.
+Recipe not included.
+YogurtCake:  4.5000000000000000E+000.
+Recipe not included.
+*******************************************
+TASK T: IceCream   
+*******************************************
+**** Removing  Dessert IceCream from  the menu
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake:  5.0000000000000000E+000.
+Recipe not included.
+YogurtCake:  4.5000000000000000E+000.
+Recipe not included.
+*******************************************
+TASK D: YogurtCake 4.5  
+*******************************************
+**** Adding new dessert to menu:  YogurtCake 4.5  euros
+*******************************************
+TASK D: ChocoCake 5.0  
+*******************************************
+**** Adding new dessert to menu:  ChocoCake 5.0  euros
+*******************************************
+TASK D: IceCream 5.5  
+*******************************************
+**** Adding new dessert to menu:  IceCream 5.5  euros
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.
+Recipe not included.
+IceCream: 5.5.
+Recipe not included.
+YogurtCake: 4.5.
+Recipe not included.
+*******************************************
+TASK T: IceCream   
+*******************************************
+**** Removing  Dessert IceCream from  the menu
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.
+Recipe not included.
+YogurtCake: 4.5.
+Recipe not included.
+*******************************************
+TASK D: YogurtCake 4.5  
+*******************************************
+**** Adding new dessert to menu:  YogurtCake 4.5  euros
+*******************************************
+TASK D: ChocoCake 5.0  
+*******************************************
+**** Adding new dessert to menu:  ChocoCake 5.0  euros
+*******************************************
+TASK D: IceCream 5.5  
+*******************************************
+**** Adding new dessert to menu:  IceCream 5.5  euros
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.00.
+Recipe not included.
+IceCream: 5.50.
+Recipe not included.
+YogurtCake: 4.50.
+Recipe not included.
+*******************************************
+TASK T: IceCream   
+*******************************************
+**** Removing  Dessert IceCream from  the menu
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.00.
+Recipe not included.
+YogurtCake: 4.50.
+Recipe not included.
+*******************************************
+TASK D: YogurtCake 4.5  
+*******************************************
+**** Adding new dessert to menu:  YogurtCake 4.5  euros
+*******************************************
+TASK D: ChocoCake 5.0  
+*******************************************
+**** Adding new dessert to menu:  ChocoCake 5.0  euros
+*******************************************
+TASK D: IceCream 5.5  
+*******************************************
+**** Adding new dessert to menu:  IceCream 5.5  euros
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.00.
+Recipe not included.
+IceCream: 5.50.
+Recipe not included.
+YogurtCake: 4.50.
+Recipe not included.
+*******************************************
+TASK T: IceCream   
+*******************************************
+**** Removing  Dessert IceCream from  the menu
+*******************************************
+TASK V:    
+*******************************************
+**** Menu  ****   
+ChocoCake: 5.00.
+Recipe not included.
+YogurtCake: 4.50.
+Recipe not included.
+

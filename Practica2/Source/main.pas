@@ -76,7 +76,7 @@ uses IngredientList,DessertList,RequestQueue,crt,sysutils;
 		listaI:tListI;
 	begin
 		listaI:=postre.recipe;
-		writeln(postre.nDessert,': ', postre.price,'.');
+		writeln(postre.nDessert,': ', postre.price:0:2,'.');
 		p:=firstI(listaI);
 		if p = NULLI
 			then writeln('Recipe not included.')

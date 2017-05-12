@@ -1,0 +1,7 @@
+N flour         20000        true    false        #add ingredient to stock
+N yogurt        3            false   true         #add ingredient to stock
+S                                                 #shows flour, yogurt
+D YogurtCake    4.5                               #add dessert
+I YogurtCake    yogurt       1                    #add ingredient to dessert
+I YogurtCake    flour        300                  #add ingredient to dessert
+V                                                 #shows YogurtCake. Contains yogurt flour
