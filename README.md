@@ -1,6 +1,7 @@
 # Pro2
-Practica de Programación 2
+Practica de Programación 2 Facultade de Informática da Coruña.
 
-Julian y Pablo molan mucho y se dedican a hacer repositorios porque los repositorios son guays.
-Lo más guay de un repositorio es poder decir que tienes un repositorio, porque los repositorios indican que eres un programador importante.
-Lo más guay de ser un programador importante es poder decir que tienes un repositorio, porque los repositorios son algo guay.
+Practica 1 y practica 2 de 2017 Programación 2.
+Cualquier contacto, sugerencia o duda podeis contactar al siguiente correo electrónico. pabloramosmuras@gmail.com
+
+Practica realizada en el lenguaje de programación Pascal.
